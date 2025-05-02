@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <title>درخواست‌نامه‌ها</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+   <main class="requests-container">
+
+    <section class="request-form-section">
+        <h1>فرم درخواست</h1>
+        
+        <form class="request-form">
+          <label for="name">نام کامل:</label>
+          <input type="text" id="name" name="name" required>
+  
+          <label for="email">ایمیل:</label>
+          <input type="email" id="email" name="email" required>
+  
+          <label>شماره تماس (اختیاری):</label>
+          <input type="tel" name="phone">
+  
+          <label>ولایت:</label>
+          <input type="text" name="province" required>
+  
+          <label>سن:</label>
+          <input type="number" name="age" required>
+  
+          <label>سطح تحصیلات:</label>
+          <select name="education" required>
+              <option value="">انتخاب کنید</option>
+              <option value="school">مکتب</option>
+              <option value="university">دانشگاه</option>
+              <option value="graduate">فارغ التحصیل</option>
+              <option value="other">دیگر</option>
+          </select>
+  
+          <label>تجربه در نوشتن (اختیاری):</label>
+          <textarea name="experience" rows="4"></textarea>
+  
+          <label>انگیزه شما برای این کورس:</label>
+          <textarea name="motivation" rows="4" required></textarea>
+  
+          <button type="submit">ارسال درخواست</button>
+        </form>
+      </section>
+
+  </main> 
+</body>
+</html>
