@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fa" dir="rtl">
 
 <head>
     <meta charset="UTF-8">
@@ -18,14 +18,14 @@
                 </div>
 
                 <div class="navbar-section nav-links navlinks">
-                    <a href="index.html">خانه</a>
-                    <a href="notes.html">یاداشت ها</a>
-                    <a href="talks.html">گفتگو ها</a>
-                    <a href="special.html">ویژه نامه ها</a>
-                    <a href="podcast.html">پادکست</a>
+                    <a href="#home">خانه</a>
+                    <a href="#notes.html">یاداشت ها</a>
+                    <a href="#talks.html">گفتگو ها</a>
+                    <a href="#special.html">ویژه نامه ها</a>
+                    <a href="#podcast.html">پادکست</a>
 
                     <div class="dropdown">
-                        <a href="request.html">درخواست نامه</a>
+                        <a href="#request.html">درخواست نامه</a>
                         <div class="dropdown-content">
                             <a href="request.html?province=بامیان">فرم درخواست بامیان</a>
                             <a href="request.html?province=هرات">فرم درخواست هرات</a>
@@ -35,7 +35,7 @@
                     </div>
 
                     <div class="dropdown">
-                        <a href="recommendations.html">توصیه های ما</a>
+                        <a href="#recommendations.html">توصیه های ما</a>
                         <div class="dropdown-content">
                             <a href="recommendations.html?category=نویسندگان مرد ایران">نویسندگان مرد ایران</a>
                             <a href="recommendations.html?category=نویسندگان مرد افغانستان">نویسندگان مرد افغانستان</a>
@@ -52,14 +52,14 @@
                     </div>
 
 
-                    <a href="about.html">درباره ما</a>
+                    <a href="#about.html">درباره ما</a>
                 </div>
 
                 <div class="navbar-section icons">
                     <a href="#"><i class="fab fa-telegram-plane"></i></a>
                     <a href="#"><i class="fab fa-twitter"></i></a>
                     <a href="#"><i class="fab fa-facebook-f"></i></a>
-                    <a href="#"><i class="fas fa-search"></i></a>
+                    <span id="search-trigger"><i class="fas fa-search"></i></span>
                 </div>
             </div>
         </nav>
@@ -70,17 +70,17 @@
             <div class="articles-wrapper">
 
                 <div class="right-article">
-                    <div class="article large nav-links">
+                    <!-- <div class="article large nav-links">
                         <a href="full-text-page.html">
                             <img src="asssets/Photos/Sara.png" alt="Article 3">
                         </a>
                         <h3> متن گفتگوی ما با سارا راخفوس، مترجم ادبیات فارسی به آلمانی</h3>
                         <p>پنج‌شنبه، ۳۰ حمل ۱۴۰۳</p>
-                    </div>
+                    </div> -->
                 </div>
 
                 <div class="left-articles">
-                    <div class="article small nav-links">
+                    <!-- <div class="article small nav-links">
                         <a href="full-text-page.html">
                             <img src="asssets/Photos/dukhtaran.jpg" alt="Article 1">
                         </a>
@@ -104,7 +104,7 @@
                         <h3> دختران خاک منتشر شد, جواد خاوری
                             رمان (ادبیات افغانستان)</h3>
                         <p>پنج‌شنبه، ۲۳ حمل ۱۴۰۳</p>
-                    </div>
+                    </div> -->
                 </div>
 
 
@@ -113,108 +113,47 @@
 
             <h2 class="section-title">یاداشت ها</h2>
 
-
             <section class="articles-section">
                 <!-- First Row -->
+                <div class="articles-row first-row"></div>
+
+                <!-- Second Row with two columns -->
+                <div class="articles-row second-row">
+
+                    <!-- Right: Remaining notes -->
+                    <div class="right-column"></div>
+
+                    <!-- Left: Application cards -->
+                    <div class="left-column forms-column"></div>
+                </div>
+            </section>
+
+
+            <!-- 
+            <section class="articles-section">
+                
                 <div class="articles-row">
-                    <div class="books">
-                        <img src="Neelofar_logo_resized.png" alt="article 1">
-                        <h3> دختران خاک منتشر شد, جواد خاوری
-                            رمان (ادبیات افغانستان)</h3>
-                    </div>
-                    <div class="books">
-                        <img src="Neelofar_logo_resized.png" alt="article 2">
-                        <h3> دختران خاک منتشر شد, جواد خاوری
-                            رمان (ادبیات افغانستان)</h3>
-                    </div>
-                    <div class="books">
-                        <img src="Neelofar_logo_resized.png" alt="article 3">
-                        <h3> دختران خاک منتشر شد, جواد خاوری
-                            رمان (ادبیات افغانستان)</h3>
-                    </div>
-                    <div class="books">
-                        <img src="Neelofar_logo_resized.png" alt="article 4">
-                        <h3> دختران خاک منتشر شد, جواد خاوری
-                            رمان (ادبیات افغانستان)</h3>
-                    </div>
+                    
                 </div>
 
                 <div class="applications-section">
 
-                    <div class="right-column">
-                        <img src="Neelofar_logo_resized.png" alt="center article">
-                        <h3> دختران خاک منتشر شد, جواد خاوری
-                            رمان (ادبیات افغانستان)</h3>
-                    </div>
-
-                    <!-- Right Column -->
-                    <div class="right-column">
-                        <img src="Neelofar_logo_resized.png" alt="right article">
-                        <h3> دختران خاک منتشر شد, جواد خاوری
-                            رمان (ادبیات افغانستان)</h3>
-                    </div>
-
-
-                    <!-- Right Column: Application Cards -->
+                    
                     <div class="forms-column">
                         <div class="application-card">
-                            <div class="application-text">
-                                <div class="application-detail">
-                                    <span class="icon-circle">
-                                        <i class="fas fa-file-alt"></i>
-                                    </span>
-
-                                    <div class="application-titles">
-                                        <h3>فرم درخواست ولایت هرات</h3>
-                                        <h4>حمل - جوزا ۱۴۰۴</h4>
-                                    </div>
-
-                                </div>
-                                <p>خبر خوش! آیا می‌خواهید نویسنده بعدی باشید که آثارش اینجا منتشر می‌شود؟ ثبت‌نام آغاز
-                                    شده است این فرصت عالی را از دست ندهید!
-                                </p>
-                            </div>
+                          
                         </div>
 
-                        <div class="application-card">
-                            <div class="application-text">
-                                <div class="application-detail">
-                                    <span class="icon-circle">
-                                        <i class="fas fa-file-alt"></i>
-                                    </span>
-                                    <div class="application-titles">
-                                        <h3>فرم درخواست ولایت هرات</h3>
-                                        <h4>حمل - جوزا ۱۴۰۴</h4>
-                                    </div>
-
-                                </div>
-                                <p>فرصتی عالی برای نویسندگان و دانش‌آموزان هرات! لطفاً درخواست‌های خود را قبل از پایان
-                                    ماه جوزا ارسال نمایید.</p>
-                            </div>
-                        </div>
-
-                        <div class="application-card">
-                            <div class="application-text">
-                                <div class="application-detail">
-                                    <span class="icon-circle">
-                                        <i class="fas fa-file-alt"></i>
-                                    </span>
-                                    <div class="application-titles">
-                                        <h3>فرم درخواست ولایت هرات</h3>
-                                        <h4>حمل - جوزا ۱۴۰۴</h4>
-                                    </div>
-
-                                </div>
-                                <p>فرصتی عالی برای نویسندگان و دانش‌آموزان هرات! لطفاً درخواست‌های خود را قبل از پایان
-                                    ماه جوزا ارسال نمایید.</p>
-                            </div>
-                        </div>
+                       
+                        
                     </div>
 
                 </div>
 
 
-            </section>
+            </section> -->
+
+
 
             <section class="articles-section">
                 <!-- Divider -->
@@ -225,7 +164,7 @@
 
                 <!-- Second Row -->
                 <div class="articles-row">
-                    <div class="books">
+                    <!-- <div class="books">
                         <img src="Neelofar_logo_resized.png" alt="article 5">
                         <h3> دختران خاک منتشر شد, جواد خاوری
                             رمان (ادبیات افغانستان)</h3>
@@ -244,7 +183,7 @@
                         <img src="Neelofar_logo_resized.png" alt="article 8">
                         <h3> دختران خاک منتشر شد, جواد خاوری
                             رمان (ادبیات افغانستان)</h3>
-                    </div>
+                    </div> -->
                 </div>
             </section>
 
@@ -257,21 +196,21 @@
 
                     <!-- Center Column -->
                     <div class="right-column">
-                        <img src="Neelofar_logo_resized.png" alt="center article">
+                        <!-- <img src="Neelofar_logo_resized.png" alt="center article">
                         <h3> دختران خاک منتشر شد, جواد خاوری
-                            رمان (ادبیات افغانستان)</h3>
+                            رمان (ادبیات افغانستان)</h3> -->
                     </div>
 
                     <!-- Right Column -->
                     <div class="right-column">
-                        <img src="Neelofar_logo_resized.png" alt="right article">
+                        <!-- <img src="Neelofar_logo_resized.png" alt="right article">
                         <h3> دختران خاک منتشر شد, جواد خاوری
-                            رمان (ادبیات افغانستان)</h3>
+                            رمان (ادبیات افغانستان)</h3> -->
                     </div>
 
                     <!-- Left Column -->
                     <div class="left-column">
-                        <div class="small-article">
+                        <!-- <div class="small-article">
                             <img src="Neelofar_logo_resized.png" alt="left article 1">
                             <div class="text">
                                 <h3> دختران خاک منتشر شد, جواد خاوری
@@ -291,7 +230,7 @@
                                 <h3> دختران خاک منتشر شد, جواد خاوری
                                     رمان (ادبیات افغانستان)</h3>
                             </div>
-                        </div>
+                        </div> -->
                     </div>
 
                 </div>
@@ -307,31 +246,26 @@
             <section class="articles-section">
                 <!-- First Row -->
                 <div class="articles-row">
-                    <div class="books">
-                        <img src="Neelofar_logo_resized.png" alt="article 1">
-                        <h3> دختران خاک منتشر شد, جواد خاوری
-                            رمان (ادبیات افغانستان)</h3>
-                    </div>
-                    <div class="books">
-                        <img src="Neelofar_logo_resized.png" alt="article 2">
-                        <h3> دختران خاک منتشر شد, جواد خاوری
-                            رمان (ادبیات افغانستان)</h3>
-                    </div>
-                    <div class="books">
-                        <img src="Neelofar_logo_resized.png" alt="article 3">
-                        <h3> دختران خاک منتشر شد, جواد خاوری
-                            رمان (ادبیات افغانستان)</h3>
-                    </div>
-                    <div class="books">
-                        <img src="Neelofar_logo_resized.png" alt="article 4">
-                        <h3> دختران خاک منتشر شد, جواد خاوری
-                            رمان (ادبیات افغانستان)</h3>
-                    </div>
+
                 </div>
             </section>
 
         </div>
     </main>
+
+    <!-- Search bar -->
+
+    <div id="search-bar">
+        <span id="search-close">&times;</span>
+        <input type="text" id="search-input" placeholder="جستجو کنید...">
+        <div id="search-results"></div>
+    </div>
+
+    <!-- Loading Spinner -->
+    <div id="loading-spinner">
+        <div class="modern-spinner"></div>
+    </div>
+
 
 
     <footer class="footer">
@@ -397,8 +331,11 @@
 
 
 
-    <!-- Font Awesome CDN -->
-    <script src="main.js"></script>
+    <script type="module" src="main.js"></script>
+
+
+    <!-- <script src="supabaseClient.js"></script> -->
+
 
 </body>
 
