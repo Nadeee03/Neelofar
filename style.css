@@ -117,9 +117,223 @@ body {
 #search-trigger:hover{
   color: #305E53;
 }
+
+.menu-toggle{
+  display: none;
+}
+
+/* Rsponsive  */
+
+
+
+/* Mobile layout */
+@media (max-width: 768px) {
+  
+  .nav-content {
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+  }
+
+  .navbar{
+    border-bottom: none;
+  }
+
+  .navbar-section{
+    padding: 0px;
+  }
+  /* Logo row (fixed at top) */
+  .logo {
+    order: 1;
+    text-align: center;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    background: white;
+    position: sticky;
+    top: 0;
+    z-index: 1100;
+    /* border-bottom: 1px solid #eee; */
+  }
+
+  .logo img {
+    height: 60px;
+    object-fit: contain;
+  }
+
+  /* Second row: menu left + icons right (fixed under logo) */
+  .icons {
+    order: 2;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    /* padding: 8px; */
+    position: sticky;
+    top: 60px; /* sticks right below logo */
+    z-index: 1050;
+    margin-top: 20px;
+    border-bottom: 1px solid #eee;
+  }
+
+  /* .icons-head{
+    background: white;
+    border-bottom: 1px solid #eee;
+  } */
+
+  /* Menu toggle (left) */
+  .menu-toggle {
+    display: flex;
+    font-size: 26px;
+    cursor: pointer;
+    color: #527E69;
+    padding-right: 20px;
+  }
+
+  /* Social icons (right) */
+  .icons a,
+  #search-trigger {
+    font-size: 18px;
+    color: #527E69;
+    margin-left: 10px;
+  }
+
+  .icons a:hover,
+  #search-trigger:hover {
+    color: #305E53;
+  }
+
+  /* Nav links: open BELOW logo+icons */
+  .navlinks {
+    position: absolute;
+    top: 100px; /* below header */
+    right: 0;
+    width: 100%;
+    order: 3;
+    flex-direction: column;
+    align-items: flex-start;
+    background-color: white;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.4s ease-out;
+    flex-direction: column;
+    padding: 0;
+    z-index: 900; /* stays below logo+icons */
+  }
+
+  .navlinks.show {
+        max-height: 80vh; /* adjust for your content */
+        border-bottom: 1px solid #ddd;
+        overflow-y: auto;
+    }
+  .navlinks a {
+    display: block;
+    padding: 10px 30px;
+    width: 100%;
+  }
+
+  /* Dropdown fix: always expand downward */
+  .dropdown {
+    width: 100%;
+   
+  }
+
+  .dropdown-content {
+     max-height: 0;
+        overflow: hidden;
+        transition: max-height 0.3s ease-out;
+  }
+
+  /* Show dropdown when parent is active */
+    .dropdown.active .dropdown-content {
+        max-height: 100vh; /* enough space for items */
+        overflow-y: auto;
+    }
+}
+
+@media (min-width: 768px) and (max-width: 992px) {
+  .navbar {
+    height: 80px;
+  }
+
+  .logo img {
+    height: 75px;
+  }
+
+  .navlinks {
+    gap: 20px;
+  }
+
+  .navlinks a {
+    font-size: 16px;
+  }
+
+  .icons a {
+    font-size: 18px;
+    margin-left: 10px;
+  }
+
+  .dropdown-content {
+    min-width: 100%;
+  }
+}
+
+/* ================================
+   📌 Tablet Landscape / Small Laptops: 992px–1200px
+================================ */
+@media (min-width: 992px) and (max-width: 1200px) {
+  .navbar {
+    height: 80px;
+  }
+
+  .logo img {
+    height: 80px;
+  }
+
+  .navlinks {
+    gap: 20px;
+  }
+
+  .navlinks a {
+    font-size: 17px;
+  }
+
+  .icons a {
+    font-size: 18px;
+  }
+}
+
+/* ================================
+   📌 Large Screens: 1200px–1600px
+================================ */
+@media (min-width: 1200px) and (max-width: 1600px) {
+  .navbar {
+    max-width: 1400px;
+    margin: 0 auto;
+  }
+
+  .navlinks {
+    gap: 35px;
+  }
+
+  .navlinks a {
+    font-size: 18px;
+  }
+}
+
+/* ================================
+   📌 Extra Large Screens: >1600px
+================================ */
+@media (min-width: 1600px) {
+  .navbar {
+    max-width: 1500px;
+    margin: 0 auto;
+  }
+}
 #main-content {
   max-width: 1200px;
   margin: 30px auto;
+  padding: 10px;
 }
 
 
@@ -248,6 +462,138 @@ body {
   margin: 2rem 0;
 }
 
+/* ================================
+   📌 TABLETS (max-width: 992px)
+================================ */
+@media (max-width: 992px) {
+
+  .articles-wrapper {
+    gap: 1.5rem;
+  }
+
+  .article.small {
+    width: 220px;
+  }
+
+  .right-article .article.large {
+    width: 340px;
+  }
+
+  .books img {
+    width: 250px;
+  }
+
+  .books h3 {
+    font-size: 0.95rem;
+  }
+}
+
+/* =====================================
+   📌 SMALL TABLETS & LARGE PHONES
+   max-width: 768px
+===================================== */
+@media (max-width: 768px) {
+
+  /* First section (articles-wrapper) */
+  .articles-wrapper {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .left-articles {
+    justify-content: center;
+    gap: 1.2rem;
+  }
+
+  .article.small {
+    width: 45%;
+  }
+
+  .right-article .article.large {
+    width: 100%;
+  }
+
+  /* Notes section two-column → stack */
+  .articles-row.second-row {
+    flex-direction: column;
+    flex-wrap: wrap;
+    gap: 2rem;
+  }
+
+  .forms-column.left-column,
+  .right-column {
+    max-width: 100%;
+    width: 100%;
+  }
+
+  .right-column {
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 1.5rem;
+  }
+
+  .right-column .books img {
+    width: 220px;
+  }
+}
+
+/* ================================
+   📌 PHONES (max-width: 576px)
+================================ */
+@media (max-width: 576px) {
+
+  .article.small {
+    width: 100%;
+  }
+
+  .article h3 {
+    font-size: 1rem;
+  }
+
+  .right-column .books img {
+    width: 180px;
+  }
+
+  .books h3 {
+    font-size: 0.9rem;
+  }
+
+  .section-title {
+    font-size: 1.3rem;
+  }
+
+  .articles-row {
+    justify-content: center;
+  }
+}
+
+/* ================================
+   📌 VERY SMALL PHONES (max-width: 400px)
+================================ */
+@media (max-width: 400px) {
+
+  .article.small {
+    width: 100%;
+  }
+
+  .article h3 {
+    font-size: 0.9rem;
+  }
+
+  .books img {
+    width: 150px;
+  }
+
+  .books h3 {
+    font-size: 0.85rem;
+  }
+
+  .section-title {
+    font-size: 1.2rem;
+  }
+}
+
+ /* Podcasts and Special Home Section  */
 .review-section {
   max-width: 1200px;
   margin: 30px auto;
@@ -295,7 +641,6 @@ body {
 .section-title {
   font-size: 1.5rem;
   color: #222;
-  /* Golden color */
   margin-bottom: 2rem;
   text-align: center;
 }
@@ -310,6 +655,94 @@ body {
 .right-column h3 {
   font-size: 1.1rem;
   color: #222;
+}
+
+/* --- TABLETS (max-width: 992px) --- */
+@media (max-width: 992px) {
+
+  .columns {
+    gap: 1.5rem;
+  }
+
+  .right-column {
+    max-width: 280px;
+  }
+
+  .small-article img {
+    width: 85px;
+  }
+
+  .small-article h3 {
+    font-size: 0.95rem;
+  }
+}
+
+/* --- SMALL TABLETS & LARGE PHONES (max-width: 768px) --- */
+@media (max-width: 768px) {
+
+  .columns {
+    flex-direction: column;
+    align-items: center;
+    gap: 2rem;
+  }
+
+  .right-column {
+    max-width: 100%;
+    width: 100%;
+  }
+
+  .left-column {
+    width: 100%;
+  }
+
+  .small-article img {
+    width: 90px;
+  }
+
+  .small-article h3 {
+    font-size: 1rem;
+  }
+}
+
+/* --- PHONES (max-width: 576px) --- */
+@media (max-width: 576px) {
+
+  .section-title {
+    font-size: 1.3rem;
+  }
+
+  .small-article {
+    gap: 0.7rem;
+  }
+
+  .small-article img {
+    width: 75px;
+  }
+
+  .small-article h3 {
+    font-size: 0.9rem;
+    line-height: 1.4;
+  }
+
+  .right-column h3 {
+    font-size: 1rem;
+  }
+}
+
+/* --- VERY SMALL PHONES (max-width: 400px) --- */
+@media (max-width: 400px) {
+
+  .small-article img {
+    width: 60px;
+  }
+
+  .small-article h3 {
+    font-size: 0.85rem;
+  }
+
+  .section-title {
+    font-size: 1.2rem;
+  }
 }
 
 /* Hero section  */
@@ -471,6 +904,220 @@ body {
   padding-top: 5px;
   border-top: 1px solid #6aa58b;
 }
+
+@media (max-width: 762px) {
+  .footer {
+    padding: 20px 15px;
+    font-size: 13px;
+  }
+
+  .footer-content {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 20px;
+    max-width: 100%;
+  }
+
+  /* Left column: logo + description */
+  .footer-right {
+    flex: 1 1 45%;
+    max-width: 45%;
+    text-align: left;
+  }
+
+  .footer-right img.logo2 {
+    width: 50px;
+    margin-bottom: 10px;
+  }
+
+  .footer-right p {
+    font-size: 0.9em;
+  }
+
+  /* Right column: links stacked in two groups */
+  .footer-column {
+    flex: 1 1 45%;
+    max-width: 45%;
+    text-align: left;
+    margin-bottom: 15px;
+  }
+
+  .footer-column ul li {
+    margin-bottom: 12px;
+    font-size: 0.9rem;
+  }
+
+  .footer-column ul a {
+    text-decoration: none;
+  }
+
+  /* Footer bottom */
+  .footer-bottom {
+    font-size: 11px;
+    margin-top: 15px;
+    text-align: center;
+  }
+
+  /* Social icons under logo */
+  .footer-right .icons {
+    margin: 10px 0;
+  }
+
+  .footer-right .icons a {
+    margin: 0 5px;
+    font-size: 18px;
+  }
+}
+
+
+/* ================================
+   📌 TABLET PORTRAIT: 768px–992px
+================================ */
+@media (min-width: 768px) and (max-width: 992px) {
+  /* .footer {
+    padding: 35px 20px 25px;
+    font-size: 13px;
+  } */
+
+  .footer-content {
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    gap: 25px;
+  }
+
+  .footer-right {
+    max-width: 250px;
+    text-align: center;
+  }
+
+  .footer-right img.logo2 {
+    width: 55px;
+  }
+
+  .footer-right p {
+    font-size: 0.95em;
+  }
+
+  .footer-column {
+    width: 45%;
+    text-align: center;
+  }
+
+  .footer-column ul li {
+    margin-bottom: 18px;
+    font-size: 0.95rem;
+  }
+
+  .footer-bottom {
+    font-size: 12px;
+    margin-top: 15px;
+  }
+}
+
+/* ================================
+   📌 TABLET LANDSCAPE / SMALL LAPTOPS: 992px–1200px
+================================ */
+@media (min-width: 992px) and (max-width: 1200px) {
+  /* .footer {
+    padding: 40px 20px 30px;
+    font-size: 14px;
+  } */
+
+  .footer-content {
+    flex-wrap: wrap;
+    justify-content: space-around;
+    gap: 30px;
+  }
+
+  .footer-right {
+    max-width: 280px;
+    text-align: left;
+  }
+
+  .footer-right img.logo2 {
+    width: 60px;
+  }
+
+  .footer-column {
+    width: 22%;
+    text-align: left;
+  }
+
+  .footer-column ul li {
+    margin-bottom: 20px;
+    font-size: 1rem;
+  }
+
+  .footer-bottom {
+    font-size: 12px;
+    margin-top: 20px;
+  }
+}
+
+/* ================================
+   📌 LARGE SCREENS: 1200px–1600px
+================================ */
+@media (min-width: 1200px) and (max-width: 1600px) {
+  /* .footer {
+    padding: 45px 40px 35px;
+    font-size: 14px;
+  } */
+
+  .footer-content {
+    justify-content: space-between;
+    max-width: 1200px;
+  }
+
+  .footer-right img.logo2 {
+    width: 65px;
+  }
+
+  .footer-column {
+    width: 22%;
+  }
+
+  .footer-column ul li {
+    font-size: 1rem;
+  }
+
+  .footer-bottom {
+    font-size: 13px;
+  }
+}
+
+/* ================================
+   📌 EXTRA LARGE SCREENS >1600px
+================================ */
+@media (min-width: 1600px) {
+  /* .footer {
+    padding: 50px 50px 40px;
+    font-size: 15px;
+  } */
+
+  .footer-content {
+    max-width: 1400px;
+    justify-content: space-between;
+  }
+
+  .footer-right img.logo2 {
+    width: 70px;
+  }
+
+  .footer-column {
+    width: 20%;
+  }
+
+  .footer-column ul li {
+    font-size: 1.05rem;
+  }
+
+  .footer-bottom {
+    font-size: 14px;
+  }
+}
+
 
 /* Notes */
 
@@ -718,8 +1365,226 @@ audio {
   font-size: 10px;
 }
 
-/* Recommendations */
+/* ================================
+   📌 MOBILE: <762px
+================================ */
+@media (max-width: 762px) {
+  .podcast-container {
+    padding: 0 10px;
+    margin: 20px auto;
+  }
 
+  h1 {
+    font-size: 22px;
+    margin-bottom: 20px;
+  }
+
+  .podcast-card {
+    flex-direction: column;
+  }
+
+  .podcast-img {
+    width: 100%;
+    height: auto;
+    margin-bottom: 15px;
+  }
+
+  .podcast-content {
+    padding: 10px;
+  }
+
+  .podcast-content h3 {
+    font-size: 18px;
+  }
+
+  .podcast-content .date {
+    font-size: 12px;
+  }
+
+  .podcast-content p {
+    font-size: 0.85em;
+  }
+
+  audio {
+    height: 40px;
+  }
+
+  .audio-icon,
+  .audio-icon-home {
+    width: 30px;
+    height: 30px;
+    font-size: 12px;
+  }
+}
+
+/* ================================
+   📌 TABLET: 762px–992px
+================================ */
+@media (min-width: 762px) and (max-width: 992px) {
+  .podcast-container {
+    padding: 0 15px;
+    margin: 30px auto;
+  }
+
+  h1 {
+    font-size: 24px;
+    margin-bottom: 30px;
+  }
+
+  .podcast-card {
+    flex-direction: row;
+  }
+
+  .podcast-img {
+    width: 35%;
+  }
+
+  .podcast-content {
+    padding: 15px;
+  }
+
+  .podcast-content h3 {
+    font-size: 20px;
+  }
+
+  .podcast-content .date {
+    font-size: 13px;
+  }
+
+  .podcast-content p {
+    font-size: 0.9em;
+  }
+
+  audio {
+    height: 45px;
+  }
+
+  .audio-icon,
+  .audio-icon-home {
+    width: 35px;
+    height: 35px;
+    font-size: 14px;
+  }
+}
+
+/* ================================
+   📌 SMALL LAPTOPS: 992px–1200px
+================================ */
+@media (min-width: 992px) and (max-width: 1200px) {
+  .podcast-container {
+    padding: 0 20px;
+    margin: 40px auto;
+  }
+
+  h1 {
+    font-size: 26px;
+    margin-bottom: 35px;
+  }
+
+  .podcast-card {
+    flex-direction: row;
+  }
+
+  .podcast-img {
+    width: 30%;
+  }
+
+  .podcast-content {
+    padding: 20px;
+  }
+
+  .podcast-content h3 {
+    font-size: 22px;
+  }
+
+  .podcast-content .date {
+    font-size: 14px;
+  }
+
+  .podcast-content p {
+    font-size: 0.95em;
+  }
+
+  audio {
+    height: 50px;
+  }
+}
+
+/* ================================
+   📌 LARGE SCREENS: 1200px–1600px
+================================ */
+@media (min-width: 1200px) and (max-width: 1600px) {
+  .podcast-container {
+    padding: 0 30px;
+    margin: 50px auto;
+  }
+
+  h1 {
+    font-size: 28px;
+    margin-bottom: 40px;
+  }
+
+  .podcast-img {
+    width: 30%;
+  }
+
+  .podcast-content h3 {
+    font-size: 24px;
+  }
+
+  .podcast-content .date {
+    font-size: 14px;
+  }
+
+  .podcast-content p {
+    font-size: 1em;
+  }
+}
+
+/* ================================
+   📌 EXTRA LARGE SCREENS >1600px
+================================ */
+@media (min-width: 1600px) {
+  .podcast-container {
+    max-width: 1400px;
+    padding: 0 40px;
+    margin: 60px auto;
+  }
+
+  h1 {
+    font-size: 32px;
+    margin-bottom: 50px;
+  }
+
+  .podcast-img {
+    width: 28%;
+  }
+
+  .podcast-content h3 {
+    font-size: 26px;
+  }
+
+  .podcast-content .date {
+    font-size: 15px;
+  }
+
+  .podcast-content p {
+    font-size: 1.05em;
+  }
+
+  audio {
+    height: 55px;
+  }
+
+  .audio-icon,
+  .audio-icon-home {
+    width: 45px;
+    height: 45px;
+    font-size: 16px;
+  }
+}
+
+/* Recommendations */
 
 .author-section {
   background: white;
@@ -789,6 +1654,184 @@ audio {
 
 .author-table tr:hover {
   background-color: #f1f1f1;
+}
+
+/* ================================
+   📌 MOBILE: <768px
+================================ */
+@media (max-width: 768px) {
+  .author-section {
+    padding: 15px;
+    margin: 20px auto;
+    max-width: 100%;
+  }
+
+  .section-header h2 {
+    font-size: 20px;
+  }
+
+  .section-header p {
+    font-size: 14px;
+  }
+
+  .author-table {
+    width: 100%;
+    display: block;
+    overflow-x: auto; /* horizontal scroll for small screens */
+    white-space: nowrap;
+  }
+
+  .author-table th,
+  .author-table td {
+    padding: 8px;
+    font-size: 12px;
+  }
+
+  .author-photo {
+    width: 40px;
+    height: 40px;
+  }
+
+  .book-photo {
+    width: 40px;
+    height: 60px;
+  }
+}
+
+/* ================================
+   📌 TABLET PORTRAIT: 768px–992px
+================================ */
+@media (min-width: 768px) and (max-width: 992px) {
+  .author-section {
+    padding: 20px;
+    max-width: 95%;
+  }
+
+  .section-header h2 {
+    font-size: 22px;
+  }
+
+  .section-header p {
+    font-size: 15px;
+  }
+
+  .author-table th,
+  .author-table td {
+    padding: 9px;
+    font-size: 13px;
+  }
+
+  .author-photo {
+    width: 45px;
+    height: 45px;
+  }
+
+  .book-photo {
+    width: 45px;
+    height: 65px;
+  }
+}
+
+/* ================================
+   📌 TABLET LANDSCAPE / SMALL LAPTOPS: 992px–1200px
+================================ */
+@media (min-width: 992px) and (max-width: 1200px) {
+  .author-section {
+    padding: 25px;
+    max-width: 1100px;
+  }
+
+  .section-header h2 {
+    font-size: 24px;
+  }
+
+  .section-header p {
+    font-size: 16px;
+  }
+
+  .author-table th,
+  .author-table td {
+    padding: 10px;
+    font-size: 14px;
+  }
+
+  .author-photo {
+    width: 50px;
+    height: 50px;
+  }
+
+  .book-photo {
+    width: 50px;
+    height: 70px;
+  }
+}
+
+/* ================================
+   📌 LARGE SCREENS: 1200px–1600px
+================================ */
+@media (min-width: 1200px) and (max-width: 1600px) {
+  .author-section {
+    max-width: 1200px;
+    padding: 30px;
+  }
+
+  .section-header h2 {
+    font-size: 26px;
+  }
+
+  .section-header p {
+    font-size: 16px;
+  }
+
+  .author-table th,
+  .author-table td {
+    padding: 10px;
+    font-size: 15px;
+  }
+
+  .author-photo {
+    width: 55px;
+    height: 55px;
+  }
+
+  .book-photo {
+    width: 55px;
+    height: 75px;
+  }
+}
+
+/* ================================
+   📌 EXTRA LARGE SCREENS >1600px
+================================ */
+@media (min-width: 1600px) {
+  .author-section {
+    max-width: 1400px;
+    padding: 35px;
+  }
+
+  .section-header h2 {
+    font-size: 28px;
+  }
+
+  .section-header p {
+    font-size: 17px;
+  }
+
+  .author-table th,
+  .author-table td {
+    padding: 12px;
+    font-size: 16px;
+  }
+
+  .author-photo {
+    width: 60px;
+    height: 60px;
+  }
+
+  .book-photo {
+    width: 60px;
+    height: 80px;
+  }
 }
 
 /* Requests  */
@@ -1034,7 +2077,7 @@ h1 {
 .sidebar h2 {
   font-size: 25px;
   margin-bottom: 15px;
-  color: #333;
+  color: #333 ;
   border-bottom: 2px solid #eee;
   padding-bottom: 8px;
 }
@@ -1094,6 +2137,212 @@ h1 {
   /* match your navbar height */
 }
 
+/* ================================
+   📌 MOBILE: <762px
+================================ */
+@media (max-width: 762px) {
+  .full-text-main-content {
+    padding: 10px;
+  }
+
+  .full-text-container {
+    padding: 10px 15px;
+  }
+
+  .full-text-container h1{
+    font-size: 20px;
+  }
+
+  .top-image {
+    max-width: 100%;
+    margin-bottom: 15px;
+  }
+
+  .content-with-sidebar {
+    flex-direction: column;
+    gap: 15px;
+  }
+
+  .book-details {
+    flex: 1;
+    padding-left: 0;
+  }
+
+  .book-details p {
+    font-size: 16px;
+  }
+
+  .sidebar {
+    width: 100%;
+    padding: 10px;
+  }
+
+  .sidebar h2 {
+    font-size: 20px;
+  }
+
+  .download-btn {
+    font-size: 16px;
+    display: inline-block;
+    margin-bottom: 15px;
+  }
+
+  .related-container {
+    padding: 1rem;
+  }
+
+  .related-content {
+    flex-direction: column;
+    gap: 15px;
+  }
+
+  .related-item {
+    width: 100%;
+  }
+}
+
+/* ================================
+   📌 TABLET PORTRAIT: 762px–992px
+================================ */
+@media (min-width: 762px) and (max-width: 992px) {
+  .full-text-container {
+    padding: 15px 20px;
+  }
+
+  .content-with-sidebar {
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .book-details p {
+    font-size: 18px;
+  }
+
+  .sidebar h2 {
+    font-size: 22px;
+  }
+
+  .top-image {
+    max-width: 90%;
+  }
+
+  .related-content {
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 20px;
+  }
+
+  .related-item {
+    flex: 1 1 45%;
+  }
+}
+
+/* ================================
+   📌 TABLET LANDSCAPE / SMALL LAPTOPS: 992px–1200px
+================================ */
+@media (min-width: 992px) and (max-width: 1200px) {
+  .full-text-container {
+    padding: 20px 30px;
+  }
+
+  .content-with-sidebar {
+    flex-direction: row;
+    gap: 20px;
+  }
+
+  .book-details {
+    flex: 3;
+  }
+
+  .sidebar {
+    flex: 1;
+  }
+
+  .sidebar h2 {
+    font-size: 24px;
+  }
+
+  .top-image {
+    max-width: 350px;
+  }
+
+  .related-content {
+    flex-wrap: wrap;
+    gap: 25px;
+  }
+
+  .related-item {
+    flex: 1 1 30%;
+  }
+}
+
+/* ================================
+   📌 LARGE SCREENS: 1200px–1600px
+================================ */
+@media (min-width: 1200px) and (max-width: 1600px) {
+  .full-text-container {
+    padding: 25px 40px;
+  }
+
+  .book-details p {
+    font-size: 20px;
+  }
+
+  .sidebar h2 {
+    font-size: 25px;
+  }
+
+  .top-image {
+    max-width: 400px;
+  }
+
+  .content-with-sidebar {
+    gap: 25px;
+  }
+
+  .related-content {
+    gap: 30px;
+  }
+
+  .related-item {
+    flex: 1 1 22%;
+  }
+}
+
+/* ================================
+   📌 EXTRA LARGE SCREENS >1600px
+================================ */
+@media (min-width: 1600px) {
+  .full-text-container {
+    padding: 30px 50px;
+  }
+
+  .book-details p {
+    font-size: 22px;
+  }
+
+  .sidebar h2 {
+    font-size: 28px;
+  }
+
+  .top-image {
+    max-width: 450px;
+  }
+
+  .content-with-sidebar {
+    gap: 30px;
+  }
+
+  .related-content {
+    gap: 35px;
+  }
+
+  .related-item {
+    flex: 1 1 20%;
+  }
+}
+
+
 /* Search input */
 
 #search-bar {
@@ -1146,6 +2395,14 @@ h1 {
   width: 100%;
   padding: 8px;
 }
+
+@media (max-width: 768px) {
+  #search-bar{
+    top: 100px;
+    width: 200px;
+  }
+}
+
 
 /* Loading Spinner */
 

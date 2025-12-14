@@ -307,17 +307,10 @@ document.addEventListener("DOMContentLoaded", function () {
   loadHomepageContent();
 
 
-  // async function loadHomepageContent() {
-  //   await loadFirstSectionSpecial();
-  //   await loadNotesAndApplications();
-  //   await loadTalks();
-  //   await loadRecommendationHome();
-  //   await loadSpecialAndPodcast();
-
-  // }
+ 
 
   async function loadHomepageContent() {
-    showSpinner(); // ✅ Show spinner before starting any fetches
+    showSpinner(); // Show spinner before starting any fetches
 
     try {
       await loadFirstSectionSpecial();
@@ -328,7 +321,7 @@ document.addEventListener("DOMContentLoaded", function () {
     } catch (error) {
       console.error('Error loading homepage content:', error);
     } finally {
-      hideSpinner(); // ✅ Hide spinner after all fetches complete
+      hideSpinner(); // Hide spinner after all fetches complete
     }
   }
 
@@ -347,7 +340,7 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
 
-  // ✅ Section 1: No title → special
+  // Section 1: No title → special
   async function loadFirstSectionSpecial() {
     const { data, error } = await supabase
       .from('special')
@@ -397,7 +390,7 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
 
-  // ✅ Section 2: Notes → no date
+  // Section 2: Notes → no date
   async function loadNotesAndApplications() {
     try {
       const [{ data: notes, error: notesError }, { data: provinces, error: provincesError }] = await Promise.all([
@@ -451,7 +444,7 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   }
 
-  // ✅ Section 3: Talks
+  // Section 3: Talks
   async function loadTalks() {
     const { data, error } = await supabase.from('talks').select('*').order('id', { ascending: false }).limit(4);
     if (error) return console.error('Error loading talks:', error);
@@ -460,7 +453,7 @@ document.addEventListener("DOMContentLoaded", function () {
     container.innerHTML = data.map(item => createArticleHTML({ ...item, date: null }, 'books', 'talks')).join('');
   }
 
-  // ✅ Section 4: Recommendations
+  // Section 4: Recommendations
   async function loadRecommendationHome() {
     const { data, error } = await supabase
       .from('recommendations')
@@ -496,7 +489,7 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   }
 
-  // ✅ Review Section: right → special[0], left → podcast
+  // Review Section: right → special[0], left → podcast
   async function loadSpecialAndPodcast() {
     try {
       // Fetch special (limit 2)
@@ -848,8 +841,9 @@ document.addEventListener("DOMContentLoaded", function () {
     if (window.sidebarLoading) return;
     window.sidebarLoading = true;
 
-    // Clear all previous items
-    sidebar.innerHTML = '';
+    // Remove only previous news items
+  sidebar.querySelectorAll('.news-item').forEach(item => item.remove());
+
 
     const tables = ['special', 'notes', 'podcast', 'talks'];
     const latestItems = [];
@@ -863,7 +857,7 @@ document.addEventListener("DOMContentLoaded", function () {
           .limit(1);
 
         if (error) {
-          console.error(`❌ Error fetching from ${table}:`, error);
+          console.error(` Error fetching from ${table}:`, error);
           continue;
         }
 
@@ -897,7 +891,7 @@ document.addEventListener("DOMContentLoaded", function () {
       });
 
     } catch (error) {
-      console.error("❌ Error loading latest content:", error);
+      console.error(" Error loading latest content:", error);
     }
 
     window.sidebarLoading = false;
@@ -973,12 +967,7 @@ document.addEventListener("DOMContentLoaded", function () {
   const searchInput = document.getElementById('search-input');
   const searchClose = document.getElementById('search-close');
 
-  // Toggle open on search icon click
-  // document.querySelector('.fa-search').addEventListener('click', (e) => {
-  //   e.stopPropagation(); // prevent triggering body click
-  //   searchBar.style.left = '0px';
-  //   searchInput.focus();
-  // });
+
 
   // Close on "×" click
   searchClose.addEventListener('click', () => {
@@ -1001,10 +990,7 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   });
 
-  // Prevent closing when clicking inside
-  // searchBar.addEventListener('click', e => {
-  //   e.stopPropagation();
-  // });
+ 
 
   function showSpinner() {
     document.getElementById('loading-spinner').style.display = 'flex';
@@ -1013,6 +999,49 @@ document.addEventListener("DOMContentLoaded", function () {
   function hideSpinner() {
     document.getElementById('loading-spinner').style.display = 'none';
   }
+
+
+const menuToggle = document.querySelector('.menu-toggle');
+const navLink = document.querySelector('.navlinks');
+// const dropdowns = document.querySelectorAll('.dropdown > a');
+const dropdownParents = document.querySelectorAll(".dropdown");
+
+
+menuToggle.addEventListener("click", () => {
+    navLink.classList.toggle("show");
+});
+
+/* Close menu after clicking any normal nav link */
+document.querySelectorAll(".navlinks > a").forEach(link => {
+    link.addEventListener("click", () => {
+        if (window.innerWidth <= 768) {
+            navLink.classList.remove("show");
+        }
+    });
+});
+
+/* Toggle dropdowns but prevent parent navigation */
+dropdownParents.forEach(drop => {
+    const parentLink = drop.querySelector("a"); // the first <a> (parent)
+
+    parentLink.addEventListener("click", (e) => {
+        // Only stop navigation for parent link on mobile
+        if (window.innerWidth <= 768) {
+            e.preventDefault(); // stop page navigation
+            drop.classList.toggle("active"); // open/close dropdown
+        }
+    });
+
+    // Child links (dropdown items) should still work normally
+    const childLinks = drop.querySelectorAll(".dropdown-content a");
+    childLinks.forEach(link => {
+        link.addEventListener("click", () => {
+            // Navigation allowed → NO preventDefault
+            navLink.classList.remove("show"); // auto-close menu if you want
+        });
+    });
+});
+
 
 
 });
