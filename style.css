@@ -5,8 +5,14 @@ body {
   margin: 0;
   padding: 0;
   font-family: 'IRNazanin', sans-serif;
-  direction: rtl;
+  box-sizing: border-box;
 }
+
+
+[lang="en"] {
+  text-align: left !important;
+}
+
 
 @font-face {
   font-family: 'IRNazanin';
@@ -86,7 +92,6 @@ body {
   font-size: 14px;
   display: block;
   text-align: right;
-  /* For Persian/RTL text */
 }
 
 .dropdown-content a:hover {
@@ -108,40 +113,39 @@ body {
   color: #305E53;
 }
 
-#search-trigger{
+#search-trigger {
   color: #527E69;
   font-size: 18px;
   cursor: pointer;
 }
 
-#search-trigger:hover{
+#search-trigger:hover {
   color: #305E53;
 }
 
-.menu-toggle{
+.menu-toggle {
   display: none;
 }
 
 /* Rsponsive  */
 
-
-
 /* Mobile layout */
 @media (max-width: 768px) {
-  
+
   .nav-content {
     flex-direction: column;
     align-items: center;
     width: 100%;
   }
 
-  .navbar{
+  .navbar {
     border-bottom: none;
   }
 
-  .navbar-section{
+  .navbar-section {
     padding: 0px;
   }
+
   /* Logo row (fixed at top) */
   .logo {
     order: 1;
@@ -153,7 +157,6 @@ body {
     position: sticky;
     top: 0;
     z-index: 1100;
-    /* border-bottom: 1px solid #eee; */
   }
 
   .logo img {
@@ -161,25 +164,20 @@ body {
     object-fit: contain;
   }
 
-  /* Second row: menu left + icons right (fixed under logo) */
+
   .icons {
     order: 2;
     width: 100%;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    /* padding: 8px; */
     position: sticky;
-    top: 60px; /* sticks right below logo */
+    top: 60px;
+    /* sticks right below logo */
     z-index: 1050;
     margin-top: 20px;
     border-bottom: 1px solid #eee;
   }
-
-  /* .icons-head{
-    background: white;
-    border-bottom: 1px solid #eee;
-  } */
 
   /* Menu toggle (left) */
   .menu-toggle {
@@ -206,7 +204,8 @@ body {
   /* Nav links: open BELOW logo+icons */
   .navlinks {
     position: absolute;
-    top: 100px; /* below header */
+    top: 100px;
+    /* below header */
     right: 0;
     width: 100%;
     order: 3;
@@ -218,14 +217,16 @@ body {
     transition: max-height 0.4s ease-out;
     flex-direction: column;
     padding: 0;
-    z-index: 900; /* stays below logo+icons */
+    z-index: 900;
   }
 
   .navlinks.show {
-        max-height: 80vh; /* adjust for your content */
-        border-bottom: 1px solid #ddd;
-        overflow-y: auto;
-    }
+    max-height: 80vh;
+    /* adjust for your content */
+    border-bottom: 1px solid #ddd;
+    overflow-y: auto;
+  }
+
   .navlinks a {
     display: block;
     padding: 10px 30px;
@@ -235,20 +236,21 @@ body {
   /* Dropdown fix: always expand downward */
   .dropdown {
     width: 100%;
-   
+
   }
 
   .dropdown-content {
-     max-height: 0;
-        overflow: hidden;
-        transition: max-height 0.3s ease-out;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease-out;
   }
 
   /* Show dropdown when parent is active */
-    .dropdown.active .dropdown-content {
-        max-height: 100vh; /* enough space for items */
-        overflow-y: auto;
-    }
+  .dropdown.active .dropdown-content {
+    max-height: 100vh;
+    /* enough space for items */
+    overflow-y: auto;
+  }
 }
 
 @media (min-width: 768px) and (max-width: 992px) {
@@ -278,9 +280,7 @@ body {
   }
 }
 
-/* ================================
-   📌 Tablet Landscape / Small Laptops: 992px–1200px
-================================ */
+/* Tablet Landscape / Small Laptops: 992px–1200px */
 @media (min-width: 992px) and (max-width: 1200px) {
   .navbar {
     height: 80px;
@@ -303,9 +303,7 @@ body {
   }
 }
 
-/* ================================
-   📌 Large Screens: 1200px–1600px
-================================ */
+/* Large Screens: 1200px–1600px */
 @media (min-width: 1200px) and (max-width: 1600px) {
   .navbar {
     max-width: 1400px;
@@ -321,15 +319,14 @@ body {
   }
 }
 
-/* ================================
-   📌 Extra Large Screens: >1600px
-================================ */
+/* Extra Large Screens: >1600px */
 @media (min-width: 1600px) {
   .navbar {
     max-width: 1500px;
     margin: 0 auto;
   }
 }
+
 #main-content {
   max-width: 1200px;
   margin: 30px auto;
@@ -422,9 +419,7 @@ body {
   flex: 2;
   display: flex;
   flex-direction: row;
-  /* flex-wrap: wrap; */
   gap: 30px;
-  /* min-width: 0; */
 }
 
 .right-column .books img {
@@ -462,10 +457,8 @@ body {
   margin: 2rem 0;
 }
 
-/* ================================
-   📌 TABLETS (max-width: 992px)
-================================ */
-@media (max-width: 992px) {
+/* TABLETS (max-width: 992px) */
+@media (max-width: 1100px) {
 
   .articles-wrapper {
     gap: 1.5rem;
@@ -476,7 +469,7 @@ body {
   }
 
   .right-article .article.large {
-    width: 340px;
+    width: 640px;
   }
 
   .books img {
@@ -486,12 +479,22 @@ body {
   .books h3 {
     font-size: 0.95rem;
   }
+
+  /* Notes section two-column → stack */
+  .articles-row.second-row {
+    flex-direction: column;
+    flex-wrap: wrap;
+    gap: 2rem;
+  }
+
+  .forms-column.left-column,
+  .right-column {
+    max-width: 100%;
+  }
 }
 
-/* =====================================
-   📌 SMALL TABLETS & LARGE PHONES
-   max-width: 768px
-===================================== */
+/* SMALL TABLETS & LARGE PHONES max-width: 768px */
+
 @media (max-width: 768px) {
 
   /* First section (articles-wrapper) */
@@ -537,9 +540,7 @@ body {
   }
 }
 
-/* ================================
-   📌 PHONES (max-width: 576px)
-================================ */
+/* PHONES (max-width: 576px)*/
 @media (max-width: 576px) {
 
   .article.small {
@@ -567,9 +568,7 @@ body {
   }
 }
 
-/* ================================
-   📌 VERY SMALL PHONES (max-width: 400px)
-================================ */
+/* VERY SMALL PHONES (max-width: 400px) */
 @media (max-width: 400px) {
 
   .article.small {
@@ -593,7 +592,7 @@ body {
   }
 }
 
- /* Podcasts and Special Home Section  */
+/* Podcasts and Special Home Section  */
 .review-section {
   max-width: 1200px;
   margin: 30px auto;
@@ -921,9 +920,8 @@ body {
 
   /* Left column: logo + description */
   .footer-right {
-    flex: 1 1 45%;
-    max-width: 45%;
-    text-align: left;
+    flex: 1 1 50%;
+    max-width: 50%;
   }
 
   .footer-right img.logo2 {
@@ -937,9 +935,8 @@ body {
 
   /* Right column: links stacked in two groups */
   .footer-column {
-    flex: 1 1 45%;
-    max-width: 45%;
-    text-align: left;
+    flex: 1 1 30%;
+    max-width: 30%;
     margin-bottom: 15px;
   }
 
@@ -971,14 +968,10 @@ body {
 }
 
 
-/* ================================
-   📌 TABLET PORTRAIT: 768px–992px
-================================ */
+/* TABLET PORTRAIT: 768px–992px */
+
 @media (min-width: 768px) and (max-width: 992px) {
-  /* .footer {
-    padding: 35px 20px 25px;
-    font-size: 13px;
-  } */
+
 
   .footer-content {
     flex-direction: row;
@@ -1016,14 +1009,8 @@ body {
   }
 }
 
-/* ================================
-   📌 TABLET LANDSCAPE / SMALL LAPTOPS: 992px–1200px
-================================ */
+/* TABLET LANDSCAPE / SMALL LAPTOPS: 992px–1200px*/
 @media (min-width: 992px) and (max-width: 1200px) {
-  /* .footer {
-    padding: 40px 20px 30px;
-    font-size: 14px;
-  } */
 
   .footer-content {
     flex-wrap: wrap;
@@ -1033,7 +1020,6 @@ body {
 
   .footer-right {
     max-width: 280px;
-    text-align: left;
   }
 
   .footer-right img.logo2 {
@@ -1042,7 +1028,6 @@ body {
 
   .footer-column {
     width: 22%;
-    text-align: left;
   }
 
   .footer-column ul li {
@@ -1056,14 +1041,9 @@ body {
   }
 }
 
-/* ================================
-   📌 LARGE SCREENS: 1200px–1600px
-================================ */
+/* LARGE SCREENS: 1200px–1600px */
+
 @media (min-width: 1200px) and (max-width: 1600px) {
-  /* .footer {
-    padding: 45px 40px 35px;
-    font-size: 14px;
-  } */
 
   .footer-content {
     justify-content: space-between;
@@ -1087,9 +1067,7 @@ body {
   }
 }
 
-/* ================================
-   📌 EXTRA LARGE SCREENS >1600px
-================================ */
+/* EXTRA LARGE SCREENS >1600px */
 @media (min-width: 1600px) {
   /* .footer {
     padding: 50px 50px 40px;
@@ -1365,9 +1343,9 @@ audio {
   font-size: 10px;
 }
 
-/* ================================
-   📌 MOBILE: <762px
-================================ */
+
+/* MOBILE: <762px */
+
 @media (max-width: 762px) {
   .podcast-container {
     padding: 0 10px;
@@ -1417,9 +1395,9 @@ audio {
   }
 }
 
-/* ================================
-   📌 TABLET: 762px–992px
-================================ */
+
+/* TABLET: 762px–992px */
+
 @media (min-width: 762px) and (max-width: 992px) {
   .podcast-container {
     padding: 0 15px;
@@ -1467,9 +1445,9 @@ audio {
   }
 }
 
-/* ================================
-   📌 SMALL LAPTOPS: 992px–1200px
-================================ */
+
+/* SMALL LAPTOPS: 992px–1200px */
+
 @media (min-width: 992px) and (max-width: 1200px) {
   .podcast-container {
     padding: 0 20px;
@@ -1510,9 +1488,9 @@ audio {
   }
 }
 
-/* ================================
-   📌 LARGE SCREENS: 1200px–1600px
-================================ */
+
+/* LARGE SCREENS: 1200px–1600px */
+
 @media (min-width: 1200px) and (max-width: 1600px) {
   .podcast-container {
     padding: 0 30px;
@@ -1541,9 +1519,8 @@ audio {
   }
 }
 
-/* ================================
-   📌 EXTRA LARGE SCREENS >1600px
-================================ */
+/* EXTRA LARGE SCREENS >1600px */
+
 @media (min-width: 1600px) {
   .podcast-container {
     max-width: 1400px;
@@ -1656,9 +1633,7 @@ audio {
   background-color: #f1f1f1;
 }
 
-/* ================================
-   📌 MOBILE: <768px
-================================ */
+/* MOBILE: <768px */
 @media (max-width: 768px) {
   .author-section {
     padding: 15px;
@@ -1677,7 +1652,8 @@ audio {
   .author-table {
     width: 100%;
     display: block;
-    overflow-x: auto; /* horizontal scroll for small screens */
+    overflow-x: auto;
+    /* horizontal scroll for small screens */
     white-space: nowrap;
   }
 
@@ -1698,9 +1674,7 @@ audio {
   }
 }
 
-/* ================================
-   📌 TABLET PORTRAIT: 768px–992px
-================================ */
+/* TABLET PORTRAIT: 768px–992px */
 @media (min-width: 768px) and (max-width: 992px) {
   .author-section {
     padding: 20px;
@@ -1732,9 +1706,7 @@ audio {
   }
 }
 
-/* ================================
-   📌 TABLET LANDSCAPE / SMALL LAPTOPS: 992px–1200px
-================================ */
+/* TABLET LANDSCAPE / SMALL LAPTOPS: 992px–1200px */
 @media (min-width: 992px) and (max-width: 1200px) {
   .author-section {
     padding: 25px;
@@ -1766,9 +1738,7 @@ audio {
   }
 }
 
-/* ================================
-   📌 LARGE SCREENS: 1200px–1600px
-================================ */
+/* LARGE SCREENS: 1200px–1600px*/
 @media (min-width: 1200px) and (max-width: 1600px) {
   .author-section {
     max-width: 1200px;
@@ -1800,9 +1770,7 @@ audio {
   }
 }
 
-/* ================================
-   📌 EXTRA LARGE SCREENS >1600px
-================================ */
+/* EXTRA LARGE SCREENS >1600px */
 @media (min-width: 1600px) {
   .author-section {
     max-width: 1400px;
@@ -1995,12 +1963,18 @@ h1 {
 .full-text-main-content {
   max-width: 1200px;
   margin: auto;
+  background-color: #fff;
+  padding: 20px;
+  flex-direction: row-reverse;
+  gap: 10px;
 }
 
 .top-image {
-  width: 100%;
-  max-width: 400px;
+  max-width: 1000px;
+  object-fit: cover;
+  border-radius: 5px;
 }
+
 
 .full-text-container {
   display: flex;
@@ -2010,23 +1984,28 @@ h1 {
   max-width: 1200px;
 }
 
+.full-text-container .date {
+  padding: 0;
+  margin: 0;
+}
+
 .full-text-container h1 {
   text-align: right;
+  padding: 0;
   margin: 15px 0;
 }
+
+[lang="en"] .full-text-container h1 {
+  text-align: left;
+}
+
 
 .full-text-container p {
   margin: 0;
   color: #555;
 }
 
-/* Main Content */
-.full-text-main-content {
-  background-color: #fff;
-  padding: 20px;
-  flex-direction: row-reverse;
-  gap: 10px;
-}
+
 
 /* Sidebar */
 
@@ -2077,7 +2056,7 @@ h1 {
 .sidebar h2 {
   font-size: 25px;
   margin-bottom: 15px;
-  color: #333 ;
+  color: #333;
   border-bottom: 2px solid #eee;
   padding-bottom: 8px;
 }
@@ -2134,12 +2113,12 @@ h1 {
 
 .author-section {
   scroll-margin-top: 80px;
-  /* match your navbar height */
+
 }
 
-/* ================================
-   📌 MOBILE: <762px
-================================ */
+
+/* MOBILE: <762px */
+
 @media (max-width: 762px) {
   .full-text-main-content {
     padding: 10px;
@@ -2149,7 +2128,7 @@ h1 {
     padding: 10px 15px;
   }
 
-  .full-text-container h1{
+  .full-text-container h1 {
     font-size: 20px;
   }
 
@@ -2201,9 +2180,7 @@ h1 {
   }
 }
 
-/* ================================
-   📌 TABLET PORTRAIT: 762px–992px
-================================ */
+/* TABLET PORTRAIT: 762px–992px*/
 @media (min-width: 762px) and (max-width: 992px) {
   .full-text-container {
     padding: 15px 20px;
@@ -2222,9 +2199,6 @@ h1 {
     font-size: 22px;
   }
 
-  .top-image {
-    max-width: 90%;
-  }
 
   .related-content {
     flex-direction: row;
@@ -2237,9 +2211,7 @@ h1 {
   }
 }
 
-/* ================================
-   📌 TABLET LANDSCAPE / SMALL LAPTOPS: 992px–1200px
-================================ */
+/* TABLET LANDSCAPE / SMALL LAPTOPS: 992px–1200px */
 @media (min-width: 992px) and (max-width: 1200px) {
   .full-text-container {
     padding: 20px 30px;
@@ -2262,9 +2234,7 @@ h1 {
     font-size: 24px;
   }
 
-  .top-image {
-    max-width: 350px;
-  }
+
 
   .related-content {
     flex-wrap: wrap;
@@ -2276,9 +2246,7 @@ h1 {
   }
 }
 
-/* ================================
-   📌 LARGE SCREENS: 1200px–1600px
-================================ */
+/* LARGE SCREENS: 1200px–1600px */
 @media (min-width: 1200px) and (max-width: 1600px) {
   .full-text-container {
     padding: 25px 40px;
@@ -2292,9 +2260,6 @@ h1 {
     font-size: 25px;
   }
 
-  .top-image {
-    max-width: 400px;
-  }
 
   .content-with-sidebar {
     gap: 25px;
@@ -2309,9 +2274,7 @@ h1 {
   }
 }
 
-/* ================================
-   📌 EXTRA LARGE SCREENS >1600px
-================================ */
+/* EXTRA LARGE SCREENS >1600px */
 @media (min-width: 1600px) {
   .full-text-container {
     padding: 30px 50px;
@@ -2323,10 +2286,6 @@ h1 {
 
   .sidebar h2 {
     font-size: 28px;
-  }
-
-  .top-image {
-    max-width: 450px;
   }
 
   .content-with-sidebar {
@@ -2348,16 +2307,17 @@ h1 {
 #search-bar {
   position: fixed;
   left: -100%;
-  top: 0;
-  width: 300px;
+  top: 70px;
+  width: 350px;
   height: 100%;
   background: white;
   box-shadow: 2px 0 5px rgba(0, 0, 0, 0.3);
   transition: left 0.3s ease;
   z-index: 1000;
   padding: 40px;
-   display: flex;
+  display: flex;
   flex-direction: column;
+  box-sizing: border-box;
 }
 
 #search-bar input {
@@ -2378,14 +2338,14 @@ h1 {
   color: #527E69;
 }
 
-#search-close:hover{
+#search-close:hover {
   color: #305E53;
 }
 
 #search-results {
   margin-top: 20px;
-  flex: 1;               /* fill available vertical space */
-  overflow-y: auto;      /* enable vertical scroll */
+  flex: 1;
+  overflow-y: auto;
   padding: 10px;
   scrollbar-width: thin;
   padding-bottom: 40px;
@@ -2397,9 +2357,16 @@ h1 {
 }
 
 @media (max-width: 768px) {
-  #search-bar{
+  #search-bar {
     top: 100px;
-    width: 200px;
+    width: 100%;
+    margin: 0;
+    left: -100%;
+    box-sizing: border-box;
+  }
+
+  #search-results{
+    padding: 0;
   }
 }
 
@@ -2409,12 +2376,12 @@ h1 {
 #loading-spinner {
   position: fixed;
   inset: 0;
-  background: rgba(255, 255, 255, 0.9); 
+  background: rgba(255, 255, 255, 0.9);
   display: flex;
   justify-content: center;
   align-items: center;
   z-index: 9999;
-  backdrop-filter: blur(3px); 
+  backdrop-filter: blur(3px);
 }
 
 .modern-spinner {
@@ -2422,7 +2389,7 @@ h1 {
   height: 48px;
   border-radius: 50%;
   border: 4px solid transparent;
-  border-top: 2px solid #305E53; 
+  border-top: 2px solid #305E53;
   border-right: 2px solid #305E53;
   animation: spin 0.6s linear infinite;
 }
@@ -2432,8 +2399,3 @@ h1 {
     transform: rotate(360deg);
   }
 }
-
-
-
-
-

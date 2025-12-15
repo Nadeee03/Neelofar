@@ -288,7 +288,7 @@ document.addEventListener("DOMContentLoaded", function () {
       loadLatestContentSidebar();
 
     } catch (err) {
-      console.error("❌ Error loading full text from Supabase:", err);
+      console.error(" Error loading full text from Supabase:", err);
       document.querySelector(".full-text-main-content").innerHTML = "<p>خطا در بارگیری محتوا</p>";
     }
   }
@@ -307,7 +307,7 @@ document.addEventListener("DOMContentLoaded", function () {
   loadHomepageContent();
 
 
- 
+
 
   async function loadHomepageContent() {
     showSpinner(); // Show spinner before starting any fetches
@@ -559,11 +559,6 @@ document.addEventListener("DOMContentLoaded", function () {
       console.error('Unexpected error loading review section:', err);
     }
   }
-
-
-
-
-
 
 
   // --- Recommendations ---
@@ -842,7 +837,7 @@ document.addEventListener("DOMContentLoaded", function () {
     window.sidebarLoading = true;
 
     // Remove only previous news items
-  sidebar.querySelectorAll('.news-item').forEach(item => item.remove());
+    sidebar.querySelectorAll('.news-item').forEach(item => item.remove());
 
 
     const tables = ['special', 'notes', 'podcast', 'talks'];
@@ -990,7 +985,7 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   });
 
- 
+
 
   function showSpinner() {
     document.getElementById('loading-spinner').style.display = 'flex';
@@ -1001,46 +996,46 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
 
-const menuToggle = document.querySelector('.menu-toggle');
-const navLink = document.querySelector('.navlinks');
-// const dropdowns = document.querySelectorAll('.dropdown > a');
-const dropdownParents = document.querySelectorAll(".dropdown");
+  const menuToggle = document.querySelector('.menu-toggle');
+  const navLink = document.querySelector('.navlinks');
+  // const dropdowns = document.querySelectorAll('.dropdown > a');
+  const dropdownParents = document.querySelectorAll(".dropdown");
 
 
-menuToggle.addEventListener("click", () => {
+  menuToggle.addEventListener("click", () => {
     navLink.classList.toggle("show");
-});
+  });
 
-/* Close menu after clicking any normal nav link */
-document.querySelectorAll(".navlinks > a").forEach(link => {
+  /* Close menu after clicking any normal nav link */
+  document.querySelectorAll(".navlinks > a").forEach(link => {
     link.addEventListener("click", () => {
-        if (window.innerWidth <= 768) {
-            navLink.classList.remove("show");
-        }
+      if (window.innerWidth <= 768) {
+        navLink.classList.remove("show");
+      }
     });
-});
+  });
 
-/* Toggle dropdowns but prevent parent navigation */
-dropdownParents.forEach(drop => {
+  /* Toggle dropdowns but prevent parent navigation */
+  dropdownParents.forEach(drop => {
     const parentLink = drop.querySelector("a"); // the first <a> (parent)
 
     parentLink.addEventListener("click", (e) => {
-        // Only stop navigation for parent link on mobile
-        if (window.innerWidth <= 768) {
-            e.preventDefault(); // stop page navigation
-            drop.classList.toggle("active"); // open/close dropdown
-        }
+      // Only stop navigation for parent link on mobile
+      if (window.innerWidth <= 768) {
+        e.preventDefault(); // stop page navigation
+        drop.classList.toggle("active"); // open/close dropdown
+      }
     });
 
     // Child links (dropdown items) should still work normally
     const childLinks = drop.querySelectorAll(".dropdown-content a");
     childLinks.forEach(link => {
-        link.addEventListener("click", () => {
-            // Navigation allowed → NO preventDefault
-            navLink.classList.remove("show"); // auto-close menu if you want
-        });
+      link.addEventListener("click", () => {
+        // Navigation allowed → NO preventDefault
+        navLink.classList.remove("show"); // auto-close menu if you want
+      });
     });
-});
+  });
 
 
 
