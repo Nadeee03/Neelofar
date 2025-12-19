@@ -100,6 +100,7 @@ document.addEventListener("DOMContentLoaded", function () {
       }
 
       if (pagePath === "request.html") {
+        initRequestForm();
         const params = new URLSearchParams(queryString);
         const province = params.get("province");
 
@@ -559,6 +560,88 @@ document.addEventListener("DOMContentLoaded", function () {
       console.error('Unexpected error loading review section:', err);
     }
   }
+
+  // Applications
+  // function initRequestForm() {
+  //   const form = document.getElementById("applicationForm");
+  //   if (!form) return;
+
+  //   form.addEventListener("submit", async (e) => {
+  //     e.preventDefault();
+
+  //     const nameInput = form.querySelector('[name="name"]');
+  //     const emailInput = form.querySelector('[name="email"]');
+  //     const phoneInput = form.querySelector('[name="phone"]');
+  //     const provinceInput = form.querySelector('[name="province"]');
+  //     const ageInput = form.querySelector('[name="age"]');
+  //     const educationInput = form.querySelector('[name="education"]');
+  //     const experienceInput = form.querySelector('[name="experience"]');
+  //     const motivationInput = form.querySelector('[name="motivation"]');
+
+  //     if (!nameInput || !emailInput || !phoneInput || !provinceInput || !ageInput || !educationInput || !experienceInput || !motivationInput) {
+  //       alert("Form fields missing!");
+  //       return;
+  //     }
+
+  //     const data = {
+  //       name: nameInput.value,
+  //       email: emailInput.value,
+  //       phone: phoneInput.value,
+  //       province: provinceInput.value,
+  //       age: Number(ageInput.value),
+  //       education: educationInput.value,
+  //       experience: experienceInput.value,
+  //       motivation: motivationInput.value,
+  //     };
+
+  //     const { error } = await supabase.from("applications").insert([data]);
+
+  //     if (error) {
+  //       alert("خطا در ارسال درخواست: " + error.message);
+  //     } else {
+  //       alert("درخواست با موفقیت ثبت شد!");
+  //       form.reset();
+  //     }
+  //   });
+  // }
+
+  function initRequestForm() {
+    const form = document.querySelector("#applicationForm form");
+    if (!form) return;
+
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+
+      const data = {
+        name: form.name.value,
+        email: form.email.value,
+        phone: form.phone.value,
+        province: form.province.value,
+        age: Number(form.age.value),
+        education: form.education.value,
+        experience: form.experience.value,
+        motivation: form.motivation.value,
+      };
+
+      const { error } = await supabase.from("applications").insert([data]);
+
+      if (error) {
+        alert("خطا در ارسال درخواست: " + error.message);
+      } else {
+        alert("درخواست با موفقیت ثبت شد!");
+        form.reset(); // ✅ now this works
+      }
+    });
+  }
+
+
+  const onPageLoaded = (page) => {
+    if (page.includes("request.html")) {
+      initRequestForm();
+    }
+  };
+
 
 
   // --- Recommendations ---
