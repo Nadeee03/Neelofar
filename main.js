@@ -391,7 +391,7 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
 
-  // Section 2: Notes → no date
+  // Section 2: Notes 
   async function loadNotesAndApplications() {
     try {
       const [{ data: notes, error: notesError }, { data: provinces, error: provincesError }] = await Promise.all([
@@ -410,36 +410,6 @@ document.addEventListener("DOMContentLoaded", function () {
         createArticleHTML({ ...item, date: null }, 'books', 'notes')
       ).join('');
 
-      // Fill right column (last 2 notes)
-      const rightColumn = document.querySelector('.second-row .right-column');
-      rightColumn.innerHTML = notes.slice(4, 6).map(item =>
-        createArticleHTML({ ...item, date: null }, 'books', 'notes')
-      ).join('');
-
-      // Fill left column with application cards
-      const leftColumn = document.querySelector('.second-row .left-column');
-      leftColumn.innerHTML = ''; // Clear existing content
-
-      provinces.forEach(province => {
-        const card = document.createElement('div');
-        card.classList.add('application-card');
-        card.innerHTML = `
-        <a href="request.html?province=${province.provinces}" style="text-decoration: none; color: inherit;">
-          <div class="application-text">
-            <div class="application-detail">
-              <span class="icon-circle"><i class="fas fa-file-alt"></i></span>
-              <div class="application-titles">
-                <h3>فرم درخواست ولایت ${province.provinces}</h3>
-                <h4>${province.date}</h4>
-              </div>
-            </div>
-            <p>${province.description}</p>
-          </div>
-        </a>
-      `;
-        leftColumn.appendChild(card);
-      });
-
     } catch (err) {
       console.error('Unexpected error loading notes/applications:', err);
     }
@@ -454,35 +424,54 @@ document.addEventListener("DOMContentLoaded", function () {
     container.innerHTML = data.map(item => createArticleHTML({ ...item, date: null }, 'books', 'talks')).join('');
   }
 
-  // Section 4: Recommendations
-  async function loadRecommendationHome() {
-    const { data, error } = await supabase
-      .from('recommendations')
-      .select('*')
-      .order('id', { ascending: false })
-      .limit(4);
+  //  Section 6: Request
+  function loadRecommendationHome() {
+    const items = [
+      {
+        title: "فرم درخواست کابل",
+        image: "asssets/Photos/image2.jpg",
+        province: "کابل"
+      },
+      {
+        title: "فرم درخواست هرات",
+        image: "asssets/Photos/Image1.avif",
+        province: "هرات"
+      },
+      {
+        title: "فرم درخواست مزار شریف",
+        image: "Neelofar_logo_resized.png",
+        province: "مزار شریف"
+      },
+      {
+        title: "فرم درخواست بامیان",
+        image: "Neelofar_logo_resized.png",
+        province: "بامیان"
+      }
+    ];
 
-    if (error) {
-      console.error('Error loading recommendations:', error);
-      return;
-    }
+    const container = document
+      .querySelectorAll('.articles-section')[2]
+      ?.querySelector('.articles-row');
 
-    const container = document.querySelectorAll('.articles-section')[2]?.querySelector('.articles-row');
     if (!container) return;
 
-    container.innerHTML = ''; // Clear existing
+    container.innerHTML = '';
 
-    data.forEach(item => {
+    items.forEach(item => {
       const card = document.createElement('a');
-      card.href = `recommendations.html?category=${encodeURIComponent(item.category)}`;
+
+      // destination as application cards
+      card.href = `request.html?province=${encodeURIComponent(item.province)}`;
+
+      // keep recommendation styles
+      card.classList.add('books');
       card.style.textDecoration = 'none';
       card.style.color = 'inherit';
-      card.classList.add('books'); // so it matches existing styles
 
       card.innerHTML = `
-      <img src="${item.bookImage}" alt="${item.bookName}" />
+      <img src="${item.image}" alt="${item.title}" />
       <div class="text">
-        <h3>${item.bookName}</h3>
+        <h3>${item.title}</h3>
       </div>
     `;
 
@@ -490,120 +479,81 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   }
 
-  // Review Section: right → special[0], left → podcast
+
+  //  Section 5: Podcasts
+
   async function loadSpecialAndPodcast() {
     try {
-      // Fetch special (limit 2)
-      const { data: specialData, error: specialError } = await supabase
-        .from('special')
-        .select('*')
-        .order('id', { ascending: false })
-        .limit(2);
-
-      // Fetch podcast (limit 3)
-      const { data: podcastData, error: podcastError } = await supabase
+      // Fetch podcast only
+      const { data: podcastData, error } = await supabase
         .from('podcast')
         .select('*')
         .order('id', { ascending: false })
-        .limit(3);
+        .limit(5); // 2 right + 3 left
 
-      if (specialError || podcastError) {
-        console.error('Fetch error:', specialError || podcastError);
+      if (error) {
+        console.error('Fetch error:', error);
         return;
       }
 
-      // Fill the two right columns with special data
+      /* ---------- RIGHT COLUMNS (with audio icon) ---------- */
       const rightColumns = document.querySelectorAll('.review-section .right-column');
-      specialData.forEach((item, index) => {
+
+      podcastData.slice(0, 2).forEach((item, index) => {
         if (rightColumns[index]) {
           const wrapper = document.createElement('a');
-          wrapper.href = `full-text-page.html?id=${item.id}&type=special`;
+          wrapper.href = `full-text-page.html?id=${item.id}&type=podcast`;
           wrapper.style.textDecoration = 'none';
           wrapper.style.color = 'inherit';
+
           wrapper.innerHTML = `
-              <img src="${item.image}" alt="${item.title}">
-              <h3 style="margin: 0;">${item.title}</h3>
-          `;
+          <div class="image-wrapper">
+            <img src="${item.image}" alt="${item.title}">
+            <span class="audio-icon-home">
+              <i class="fas fa-volume-up"></i>
+            </span>
+          </div>
+          <h3 style="margin: 0;">${item.title}</h3>
+        `;
+
           rightColumns[index].innerHTML = '';
           rightColumns[index].appendChild(wrapper);
         }
       });
 
-      // Fill left column with podcast data
+      /* ---------- LEFT COLUMN ---------- */
       const leftColumn = document.querySelector('.review-section .left-column');
-      leftColumn.innerHTML = ''; // Clear existing
+      leftColumn.innerHTML = '';
 
-      podcastData.forEach(item => {
+      podcastData.slice(2).forEach(item => {
         const article = document.createElement('div');
         article.classList.add('small-article');
 
         article.innerHTML = `
-    <a href="full-text-page.html?id=${item.id}&type=podcast" style="text-decoration: none; color: inherit; display: flex; align-items: center; gap: 10px;">
-      <div style="position: relative; width: 110px;">
-        <img src="${item.image}" alt="${item.title}" style="width: 110px; height: auto; display: block;">
-        <span class="audio-icon-home">
-          <i class="fas fa-volume-up"></i>
-        </span>
-      </div>
-      <div class="text">
-        <h3 style="margin: 0;">${item.title}</h3>
-      </div>
-    </a>
-  `;
+        <a href="full-text-page.html?id=${item.id}&type=podcast"
+           style="text-decoration: none; color: inherit; display: flex; align-items: center; gap: 10px;">
+          <div style="position: relative; width: 110px;">
+            <img src="${item.image}" alt="${item.title}" style="width: 110px; height: auto; display: block;">
+            <span class="audio-icon-home">
+              <i class="fas fa-volume-up"></i>
+            </span>
+          </div>
+          <div class="text">
+            <h3 style="margin: 0;">${item.title}</h3>
+          </div>
+        </a>
+      `;
 
         leftColumn.appendChild(article);
       });
-
-
 
     } catch (err) {
       console.error('Unexpected error loading review section:', err);
     }
   }
 
+
   // Applications
-  // function initRequestForm() {
-  //   const form = document.getElementById("applicationForm");
-  //   if (!form) return;
-
-  //   form.addEventListener("submit", async (e) => {
-  //     e.preventDefault();
-
-  //     const nameInput = form.querySelector('[name="name"]');
-  //     const emailInput = form.querySelector('[name="email"]');
-  //     const phoneInput = form.querySelector('[name="phone"]');
-  //     const provinceInput = form.querySelector('[name="province"]');
-  //     const ageInput = form.querySelector('[name="age"]');
-  //     const educationInput = form.querySelector('[name="education"]');
-  //     const experienceInput = form.querySelector('[name="experience"]');
-  //     const motivationInput = form.querySelector('[name="motivation"]');
-
-  //     if (!nameInput || !emailInput || !phoneInput || !provinceInput || !ageInput || !educationInput || !experienceInput || !motivationInput) {
-  //       alert("Form fields missing!");
-  //       return;
-  //     }
-
-  //     const data = {
-  //       name: nameInput.value,
-  //       email: emailInput.value,
-  //       phone: phoneInput.value,
-  //       province: provinceInput.value,
-  //       age: Number(ageInput.value),
-  //       education: educationInput.value,
-  //       experience: experienceInput.value,
-  //       motivation: motivationInput.value,
-  //     };
-
-  //     const { error } = await supabase.from("applications").insert([data]);
-
-  //     if (error) {
-  //       alert("خطا در ارسال درخواست: " + error.message);
-  //     } else {
-  //       alert("درخواست با موفقیت ثبت شد!");
-  //       form.reset();
-  //     }
-  //   });
-  // }
 
   function initRequestForm() {
     const form = document.querySelector("#applicationForm form");
