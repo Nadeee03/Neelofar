@@ -240,8 +240,8 @@ document.addEventListener("DOMContentLoaded", function () {
 
       if (audioElement && audioSource) {
         if (book.audioLink) {
-          audioSource.src = book.audioLink;   // ✅ CORRECT
-          audioElement.load();                // ✅ REQUIRED for mobile
+          audioSource.src = book.audioLink;   //  CORRECT
+          audioElement.load();                //  REQUIRED for mobile
           audioElement.style.display = "block";
         } else {
           audioElement.style.display = "none";
