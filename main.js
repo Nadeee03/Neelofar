@@ -222,6 +222,7 @@ document.addEventListener("DOMContentLoaded", function () {
       const dateElement = document.querySelector(".date");
       const downloadLink = document.querySelector('.link');
       const audioElement = document.querySelector('.audio');
+      const audioSource = document.querySelector('.audio-source');
 
       if (titleElement) titleElement.textContent = book.title;
       if (imageElement) imageElement.src = book.image;
@@ -237,10 +238,11 @@ document.addEventListener("DOMContentLoaded", function () {
         }
       }
 
-      if (audioElement) {
+      if (audioElement && audioSource) {
         if (book.audioLink) {
-          audioElement.href = book.audioLink;
-          audioElement.style.display = "inline-block";
+          audioSource.src = book.audioLink;   // ✅ CORRECT
+          audioElement.load();                // ✅ REQUIRED for mobile
+          audioElement.style.display = "block";
         } else {
           audioElement.style.display = "none";
         }
