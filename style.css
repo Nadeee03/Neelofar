@@ -36,14 +36,13 @@ body {
 .navbar-section {
   display: flex;
   align-items: center;
-  padding: 10px;
 }
 
 .logo img {
   height: 90px;
   object-fit: contain;
   display: block;
-  margin-left: 10px;
+  margin-left: 25px;
 }
 
 .navlinks {
@@ -103,7 +102,7 @@ body {
   display: flex;
   align-items: center;
   gap: 12px;
-  margin-right: 12px;
+  margin-right: 25px;
 }
 
 
@@ -359,7 +358,7 @@ body {
 
 .article.small {
   width: 280px;
-  
+
 }
 
 .right-article .article.large img {
@@ -1871,6 +1870,10 @@ h1 {
     gap: 15px;
   }
 
+  .related-item img {
+   height: auto;
+  }
+
   .related-item {
     width: 100%;
   }
@@ -2102,30 +2105,3 @@ h1 {
   }
 }
 
-/* @media (max-width: 768px) {
-
-  .article img,
-  .books img,
-  .right-column .books img,
-  .podcast-img,
-  .special-img,
-  .top-image,
-  .related-item img {
-    height: 150px;
-    
-  }
-}
-
-@media (max-width: 576px) {
-
-  .article img,
-  .books img,
-  .right-column .books img,
-  .podcast-img,
-  .special-img,
-  .top-image,
-  .related-item img {
-    height: 120px;
-   
-  }
-} */
