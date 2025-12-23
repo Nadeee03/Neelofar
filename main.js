@@ -260,6 +260,7 @@ document.addEventListener("DOMContentLoaded", function () {
         .from(table)
         .select("*")
         .neq("id", bookId)
+        .order('id', { ascending: false })
         .limit(4);
 
       if (relatedError) throw relatedError;
