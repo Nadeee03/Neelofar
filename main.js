@@ -588,6 +588,72 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   }
 
+  function handleProvinceInfo(selectedProvince) {
+    const requestsContainer = document.querySelector('.requests-container');
+    const formSection = document.querySelector('.request-form-section');
+
+    if (!requestsContainer || !formSection) return;
+
+    let infoDiv = document.getElementById('province-info');
+    if (!infoDiv) {
+      infoDiv = document.createElement('div');
+      infoDiv.id = 'province-info';
+      requestsContainer.prepend(infoDiv);
+    }
+
+    if (!selectedProvince) {
+      infoDiv.innerHTML = `
+      <div class="province-info-box">
+        <h2>لطفاً یک ولایت را از منو انتخاب کنید.</h2>
+      </div>
+    `;
+      formSection.style.display = 'none';
+      return;
+    }
+
+    supabase
+      .from('provinces')
+      .select('*')
+      .eq('provinces', selectedProvince)
+      .single()
+      .then(({ data: province, error }) => {
+
+        if (province && province.open) {
+          infoDiv.innerHTML = `
+          <div class="province-info-box">
+            <h2>ثبت نام باز است برای ${selectedProvince}</h2>
+            <p class="province-date">تاریخ: ${province.date || ''}</p>
+            <p class="province-description">
+              ${province.description || ''}
+            </p>
+          </div>
+        `;
+          formSection.style.display = 'block';
+
+        } else if (province && !province.open) {
+          infoDiv.innerHTML = `
+          <div class="province-info-box">
+            <h2>متاسفانه ثبت نام برای ${selectedProvince} بسته است.</h2>
+            <p class="province-description">
+              ${province.description || ''}
+            </p>
+          </div>
+        `;
+          formSection.style.display = 'none';
+
+        } else {
+          infoDiv.innerHTML = `
+          <div class="province-info-box">
+            <h2>اطلاعاتی برای ${selectedProvince} یافت نشد.</h2>
+          </div>
+        `;
+          formSection.style.display = 'none';
+        }
+      })
+      .catch(error => {
+        console.error('Error loading province data from Supabase:', error.message);
+      });
+  }
 
   const onPageLoaded = (page) => {
     if (page.includes("request.html")) {
@@ -663,115 +729,6 @@ document.addEventListener("DOMContentLoaded", function () {
       tableBody.appendChild(row);
     });
   }
-
-
-  // function handleProvinceInfo(selectedProvince) {
-  //   const requestsContainer = document.querySelector('.requests-container');
-  //   const formSection = document.querySelector('.request-form-section');
-
-  //   if (!requestsContainer || !formSection) return;
-
-  //   let infoDiv = document.getElementById('province-info');
-  //   if (!infoDiv) {
-  //     infoDiv = document.createElement('div');
-  //     infoDiv.id = 'province-info';
-  //     requestsContainer.prepend(infoDiv);
-  //   }
-
-  //   if (!selectedProvince) {
-  //     infoDiv.innerHTML = `<h2>لطفاً یک ولایت را از منو انتخاب کنید.</h2>`;
-  //     formSection.style.display = 'none';
-  //     return;
-  //   }
-
-  //   supabase
-  //     .from('provinces')
-  //     .select('*')
-  //     .eq('provinces', selectedProvince)
-  //     .single()
-  //     .then(({ data: province, error }) => {
-  //       if (province && province.open) {
-  //         infoDiv.innerHTML = `<h2>ثبت نام باز است برای ${selectedProvince}</h2><p>تاریخ: ${province.date}</p>`;
-  //         formSection.style.display = 'block';
-  //       } else if (province && !province.open) {
-  //         infoDiv.innerHTML = `<h2>متاسفانه ثبت نام برای ${selectedProvince} بسته است.</h2>`;
-  //         formSection.style.display = 'none';
-  //       } else {
-  //         infoDiv.innerHTML = `<h2>اطلاعاتی برای ${selectedProvince} یافت نشد.</h2>`;
-  //         formSection.style.display = 'none';
-  //       }
-  //     })
-  //     .catch(error => {
-  //       console.error('Error loading province data from Supabase:', error.message);
-  //     });
-  // }
-
-  function handleProvinceInfo(selectedProvince) {
-  const requestsContainer = document.querySelector('.requests-container');
-  const formSection = document.querySelector('.request-form-section');
-
-  if (!requestsContainer || !formSection) return;
-
-  let infoDiv = document.getElementById('province-info');
-  if (!infoDiv) {
-    infoDiv = document.createElement('div');
-    infoDiv.id = 'province-info';
-    requestsContainer.prepend(infoDiv);
-  }
-
-  if (!selectedProvince) {
-    infoDiv.innerHTML = `
-      <div class="province-info-box">
-        <h2>لطفاً یک ولایت را از منو انتخاب کنید.</h2>
-      </div>
-    `;
-    formSection.style.display = 'none';
-    return;
-  }
-
-  supabase
-    .from('provinces')
-    .select('*')
-    .eq('provinces', selectedProvince)
-    .single()
-    .then(({ data: province, error }) => {
-
-      if (province && province.open) {
-        infoDiv.innerHTML = `
-          <div class="province-info-box">
-            <h2>ثبت نام باز است برای ${selectedProvince}</h2>
-            <p class="province-date">تاریخ: ${province.date || ''}</p>
-            <p class="province-description">
-              ${province.description || ''}
-            </p>
-          </div>
-        `;
-        formSection.style.display = 'block';
-
-      } else if (province && !province.open) {
-        infoDiv.innerHTML = `
-          <div class="province-info-box">
-            <h2>متاسفانه ثبت نام برای ${selectedProvince} بسته است.</h2>
-            <p class="province-description">
-              ${province.description || ''}
-            </p>
-          </div>
-        `;
-        formSection.style.display = 'none';
-
-      } else {
-        infoDiv.innerHTML = `
-          <div class="province-info-box">
-            <h2>اطلاعاتی برای ${selectedProvince} یافت نشد.</h2>
-          </div>
-        `;
-        formSection.style.display = 'none';
-      }
-    })
-    .catch(error => {
-      console.error('Error loading province data from Supabase:', error.message);
-    });
-}
 
 
 

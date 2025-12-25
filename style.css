@@ -1522,7 +1522,8 @@ audio {
   color: #555;
   line-height: 1.8;
   font-size: 16px;
-  white-space: pre-line; /* keeps line breaks from Supabase */
+  white-space: pre-line;
+  /* keeps line breaks from Supabase */
 }
 
 
@@ -1891,6 +1892,10 @@ h1 {
     font-size: 20px;
   }
 
+  [lang="en"] .sidebar {
+    width: 95%;
+  }
+
   .download-btn {
     font-size: 16px;
     display: inline-block;
@@ -1898,7 +1903,7 @@ h1 {
   }
 
   .related-container {
-    padding: 1rem;
+    padding: 0rem;
   }
 
   .related-content {
@@ -1907,7 +1912,7 @@ h1 {
   }
 
   .related-item img {
-   height: auto;
+    height: auto;
   }
 
   .related-item {
@@ -2106,8 +2111,13 @@ h1 {
 
   }
 
+  #search-input {
+    font-size: 16px; 
+  }
+
   #search-results {
     padding: 0;
+    padding-bottom: 40px;
   }
 }
 
@@ -2140,4 +2150,3 @@ h1 {
     transform: rotate(360deg);
   }
 }
-
