@@ -150,7 +150,7 @@ document.addEventListener("DOMContentLoaded", function () {
       updateActiveNavLink(pagePath);
 
     } catch (err) {
-      console.error("❌ Error loading page:", err);
+      console.error(" Error loading page:", err);
       contentContainer.innerHTML = "<h2>خطا در بارگیری صفحه</h2>";
     }
   }
@@ -558,37 +558,173 @@ document.addEventListener("DOMContentLoaded", function () {
 
   // Applications
 
-  function initRequestForm() {
-    const form = document.querySelector("#applicationForm form");
-    if (!form) return;
+  let currentProvinceData = null;
 
+  async function initRequestForm(selectedProvince) {
+    const form = document.querySelector("#applicationForm form");
+    const dynamicFieldsContainer = document.getElementById('dynamicFieldsContainer');
+    if (!form || !dynamicFieldsContainer) return;
+
+    // ---------- RENDER FUNCTION ----------
+    async function renderForm(data) {
+      dynamicFieldsContainer.innerHTML = '';
+
+      // Fill the province input
+      const form = document.querySelector("#applicationForm form");
+      if (form?.province) {
+        form.province.value = data.province || '';
+      }
+
+      if (!data?.fields) return;
+
+      data.fields.forEach(field => {
+        const wrapper = document.createElement('div');
+        wrapper.classList.add('form-group');
+
+        const label = document.createElement('label');
+        label.textContent = field.label || '';
+        wrapper.appendChild(label);
+
+        if (field.type === 'instruction_file' && field.fileUrl) {
+          const inputWrapper = document.createElement('div');
+          inputWrapper.className = 'instruction-file-wrapper';
+          const downloadBtn = document.createElement('a');
+          downloadBtn.href = field.fileUrl;
+          downloadBtn.target = '_blank';
+          downloadBtn.download = '';
+          downloadBtn.textContent = 'دانلود فایل';
+          inputWrapper.appendChild(downloadBtn);
+          wrapper.appendChild(inputWrapper);
+          dynamicFieldsContainer.appendChild(wrapper);
+          return;
+        }
+
+        let input;
+        if (field.type === 'textarea') input = document.createElement('textarea');
+        else if (field.type === 'select') {
+          input = document.createElement('select');
+          field.options?.forEach(opt => {
+            const option = document.createElement('option');
+            option.value = opt;
+            option.textContent = opt;
+            input.appendChild(option);
+          });
+        } else if (field.type === 'file') input = document.createElement('input'), input.type = 'file';
+        else if (field.type === 'url') input = document.createElement('input'), input.type = 'url';
+        else if (field.type === "Date") {
+          input = document.createElement("input");
+          input.type = "date";
+        }
+        else input = document.createElement('input'), input.type = field.type || 'text';
+
+        input.name = field.name || '';
+        if (field.required) input.required = true;
+        input.classList.add('form-input');
+
+        wrapper.appendChild(input);
+        dynamicFieldsContainer.appendChild(wrapper);
+      });
+    }
+
+
+    // ---------- FETCH DATA ----------
+    if (!currentProvinceData || currentProvinceData.province !== selectedProvince) {
+      const { data, error } = await supabase
+        .from('provinces')
+        .select('*')
+        .eq('province', selectedProvince)
+        .single();
+
+      if (error || !data) {
+        console.error('Error loading province data:', error?.message);
+        return;
+      }
+
+      currentProvinceData = data; // store globally
+      form.province.value = selectedProvince;
+    }
+
+    // ---------- SHOW/HIDE FORM ----------
+    const formSection = document.querySelector('.request-form-section');
+    formSection.style.display = (currentProvinceData && currentProvinceData.open) ? 'block' : 'none';
+
+    // ---------- INITIAL RENDER ----------
+    await renderForm(currentProvinceData);
+
+    // ---------- SUBMIT LISTENER ----------
     form.addEventListener("submit", async (e) => {
       e.preventDefault();
       e.stopPropagation();
 
-      const data = {
-        name: form.name.value,
-        email: form.email.value,
-        phone: form.phone.value,
-        province: form.province.value,
-        age: Number(form.age.value),
-        education: form.education.value,
-        experience: form.experience.value,
-        motivation: form.motivation.value,
-      };
+      try {
+        const formData = {
+          name: form.name?.value || "",
+          email: form.email?.value || "",
+          province: form.province?.value || "",
+          status: "submitted",
+          fields: {}
+        };
 
-      const { error } = await supabase.from("applications").insert([data]);
+        const dynamicInputs = dynamicFieldsContainer.querySelectorAll(
+          ".form-input, textarea, select"
+        );
 
-      if (error) {
-        alert("خطا در ارسال درخواست: " + error.message);
-      } else {
-        alert("درخواست با موفقیت ثبت شد!");
-        form.reset();
+        for (const input of dynamicInputs) {
+          const name = input.name;
+          if (!name) continue;
+
+          // ---------- FILE UPLOAD ----------
+          if (input.type === "file" && input.files.length > 0) {
+            const file = input.files[0];
+
+            const filePath = `applications/${Date.now()}_${file.name}`;
+
+            const { error: uploadError } = await supabase.storage
+              .from("student-uploads")
+              .upload(filePath, file);
+
+            if (uploadError) {
+              alert("خطا در آپلود فایل: " + uploadError.message);
+              return;
+            }
+
+            const { data: urlData } = supabase.storage
+              .from("student-uploads")
+              .getPublicUrl(filePath);
+
+            // ✅ SAVE URL (NOT filename)
+            formData.fields[name] = urlData.publicUrl;
+          }
+
+          // ---------- OTHER INPUT TYPES ----------
+          else if (input.type === "number") {
+            formData.fields[name] = Number(input.value);
+          } else {
+            formData.fields[name] = input.value;
+          }
+        }
+
+        const { error } = await supabase
+          .from("applications")
+          .insert([formData]);
+
+        if (error) {
+          alert("خطا در ارسال درخواست: " + error.message);
+        } else {
+          alert("درخواست با موفقیت ثبت شد!");
+          form.reset();
+          await renderForm(currentProvinceData);
+        }
+      } catch (err) {
+        console.error(err);
+        alert("خطای غیرمنتظره رخ داد!");
       }
     });
+
   }
 
-  function handleProvinceInfo(selectedProvince) {
+
+  async function handleProvinceInfo(selectedProvince) {
     const requestsContainer = document.querySelector('.requests-container');
     const formSection = document.querySelector('.request-form-section');
 
@@ -611,57 +747,51 @@ document.addEventListener("DOMContentLoaded", function () {
       return;
     }
 
-    supabase
+    const { data: province, error } = await supabase
       .from('provinces')
       .select('*')
-      .eq('provinces', selectedProvince)
-      .single()
-      .then(({ data: province, error }) => {
+      .eq('province', selectedProvince)
+      .single();
 
-        if (province && province.open) {
-          infoDiv.innerHTML = `
-          <div class="province-info-box">
-            <h2>ثبت نام باز است برای ${selectedProvince}</h2>
-            <p class="province-date">تاریخ: ${province.date || ''}</p>
-            <p class="province-description">
-              ${province.description || ''}
-            </p>
-          </div>
-        `;
-          formSection.style.display = 'block';
+    if (error || !province) {
+      infoDiv.innerHTML = `
+      <div class="province-info-box">
+        <h2>اطلاعاتی برای ${selectedProvince} یافت نشد.</h2>
+      </div>
+    `;
+      formSection.style.display = 'none';
+      return;
+    }
 
-        } else if (province && !province.open) {
-          infoDiv.innerHTML = `
-          <div class="province-info-box">
-            <h2>متاسفانه ثبت نام برای ${selectedProvince} بسته است.</h2>
-            <p class="province-description">
-              ${province.description || ''}
-            </p>
-          </div>
-        `;
-          formSection.style.display = 'none';
+    if (province.open) {
+      infoDiv.innerHTML = `
+      <div class="province-info-box">
+        <h2>ثبت نام باز است برای ${selectedProvince}</h2>
+        <p class="province-date">تاریخ: ${province.date || ''}</p>
+        <p class="province-description">${province.description || ''}</p>
+      </div>
+    `;
+      formSection.style.display = 'block';
+    } else {
+      infoDiv.innerHTML = `
+      <div class="province-info-box">
+        <h2>متاسفانه ثبت نام برای ${selectedProvince} بسته است.</h2>
+        <p class="province-description">${province.description || ''}</p>
+      </div>
+    `;
+      formSection.style.display = 'none';
+    }
 
-        } else {
-          infoDiv.innerHTML = `
-          <div class="province-info-box">
-            <h2>اطلاعاتی برای ${selectedProvince} یافت نشد.</h2>
-          </div>
-        `;
-          formSection.style.display = 'none';
-        }
-      })
-      .catch(error => {
-        console.error('Error loading province data from Supabase:', error.message);
-      });
+    // Initialize form with dynamic fields
+    await initRequestForm(selectedProvince);
   }
 
   const onPageLoaded = (page) => {
     if (page.includes("request.html")) {
-      initRequestForm();
+      //  fetch default province or wait for user selection
+      handleProvinceInfo(null);
     }
   };
-
-
 
   // --- Recommendations ---
 

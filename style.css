@@ -1490,12 +1490,6 @@ audio {
   padding: 0 20px;
 }
 
-/* #province-info .province-description {
-  padding-bottom: 10px;
-  line-height: 1.7;
-  
-} */
-
 .province-info-box {
   background-color: white;
   padding: 25px;
@@ -1503,6 +1497,7 @@ audio {
   border-right: 5px solid #305E53;
   border-radius: 10px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  color: #555;
 }
 
 .province-info-box h2 {
@@ -1527,10 +1522,16 @@ audio {
 }
 
 
-h1 {
+.request-form-section h1 {
   text-align: center;
   color: #333;
   margin-bottom: 40px;
+}
+
+@media (max-width: 768px) {
+  .request-form-section h1{
+    font-size: 1.5em;
+  }
 }
 
 .request-form-section {
@@ -1588,6 +1589,206 @@ h1 {
 .request-form button:hover {
   background-color: #305E53;
 }
+
+/* Style for file input fields */
+input[type="file"] {
+  width: 100%;
+  padding: 8px;
+  box-sizing: border-box;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  background-color: #fff;
+  font-family: inherit;
+  font-size: 1em;
+}
+
+/* Optional: Style the file input button */
+input[type="file"]::file-selector-button {
+  background-color: #527E69;
+  color: white;
+  padding: 6px 12px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-family: inherit;
+  font-size: 1em;
+  margin-right: 10px;
+}
+
+input[type="file"]::file-selector-button:hover {
+  background-color: #305E53;
+}
+
+
+/* Apply to dynamically generated textareas */
+textarea {
+  width: 100%;
+  padding: 8px;
+  box-sizing: border-box;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  background-color: #fff;
+  font-family: inherit;
+  font-size: 1em;
+  resize: vertical;
+}
+
+/* Apply to dynamically generated select dropdowns */
+
+input[type="url"] {
+  border: 1px solid #ccc;
+  width: 100%;
+  padding: 8px;
+  border-radius: 4px;
+  box-sizing: border-box;
+  font-family: inherit;
+  font-size: 1em;
+}
+
+/* Wrapper like input */
+.instruction-file-wrapper {
+  position: relative;
+  width: 100%;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  background-color: #fff;
+  box-sizing: border-box;
+  overflow: hidden;
+  font-family: inherit;
+  font-size: 1em;
+  display: flex;
+  align-items: flex-start;
+  padding-right: 0;
+  margin-bottom: 20px;
+}
+
+/* Download button like file input button */
+.instruction-file-wrapper a {
+  display: inline-block;
+  background-color: #527E69;
+  color: white;
+  padding: 4px 12px;
+  margin: 4px;
+  border-radius: 4px;
+  text-decoration: none;
+  font-family: inherit;
+  font-size: 1em;
+  cursor: pointer;
+  white-space: nowrap;
+
+}
+
+.instruction-file-wrapper a:hover {
+  background-color: #305E53;
+}
+
+html[lang='en'] .instruction-file-wrapper {
+  direction: ltr;
+  text-align: left;
+}
+
+@media (max-width: 768px) {
+  .instruction-file-wrapper a {
+    font-size: 0.9em;
+  }
+}
+
+/* Text input (already mostly covered) */
+input[type="text"],
+input[type="email"],
+input[type="number"],
+input[type="Date"],
+input[type="link"] {
+  width: 100%;
+  padding: 10px;
+  box-sizing: border-box;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  background-color: #fff;
+  font-family: inherit;
+  font-size: 16px;
+  color: #555;
+  margin-bottom: 20px;
+  transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+input[type="text"]:focus,
+input[type="email"]:focus,
+input[type="number"]:focus,
+input[type="url"]:focus {
+  border-color: #527E69;
+  box-shadow: 0 0 5px rgba(82, 126, 105, 0.5);
+  outline: none;
+}
+
+/* Optional: Placeholder styling for consistency */
+input::placeholder,
+textarea::placeholder {
+  color: #aaa;
+  font-style: italic;
+}
+
+/* Make dynamically generated selects, textareas, and inputs consistent */
+textarea,
+select,
+input[type="text"],
+input[type="email"],
+input[type="number"],
+input[type="url"],
+input[type="file"] {
+  font-family: inherit;
+  font-size: 16px;
+  color: #555;
+}
+
+/* Hover and focus consistency for select and textarea */
+textarea:hover,
+select:hover {
+  border-color: #527E69;
+}
+
+textarea:focus,
+select:focus {
+  border-color: #527E69;
+  box-shadow: 0 0 5px rgba(82, 126, 105, 0.5);
+  outline: none;
+}
+
+select {
+  width: 100%;
+  padding: 10px 12px;
+  /* space for arrow */
+  box-sizing: border-box;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  background-color: #fff;
+  font-family: inherit;
+  font-size: 16px;
+  color: #555;
+  cursor: pointer;
+  appearance: auto;
+  /* restore native select style */
+  -webkit-appearance: auto;
+  /* for Safari/Chrome */
+  -moz-appearance: auto;
+  /* for Firefox */
+}
+
+select:focus {
+  border-color: #527E69;
+  box-shadow: 0 0 5px rgba(82, 126, 105, 0.5);
+  outline: none;
+}
+
+.request-form label {
+  display: block;
+  /* ensures label is on its own line */
+  margin-bottom: 4px;
+  /* space between label and input */
+  color: #555;
+  font-weight: 500;
+}
+
 
 /* About  */
 
@@ -2112,12 +2313,12 @@ h1 {
   }
 
   #search-input {
-    font-size: 16px; 
+    font-size: 16px;
   }
 
   #search-results {
     padding: 0;
-    padding-bottom: 40px;
+    padding-bottom: 50px;
   }
 }
 
