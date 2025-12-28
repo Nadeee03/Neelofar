@@ -691,7 +691,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const description = categoryData ? categoryData.description : "توضیحی برای این دسته موجود نیست.";
 
     section.querySelector(".section-header h2").textContent = categoryName;
-    section.querySelector("#category-description").textContent = description;
+    section.querySelector("#category-description").innerHTML = description;
 
     const tableBody = section.querySelector("tbody");
     tableBody.innerHTML = "";
