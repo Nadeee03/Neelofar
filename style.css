@@ -56,6 +56,7 @@ body {
   text-decoration: none;
   color: #555;
   font-size: 18px;
+ font-weight: 600;
   transition: color 0.3s ease;
 }
 
@@ -701,8 +702,9 @@ body {
 
 .footer {
   background-color: #a4d5bd;
-  color: #ffffff;
+  color: #153e35;
   padding: 10px 0px 0px;
+  font-size: 1.1em;
 }
 
 .footer-content {
@@ -736,7 +738,7 @@ body {
 
 .footer-column a {
   text-decoration: none;
-  color: #ffffff;
+  color: #153e35;
   font-size: 1em;
   transition: color 0.3s ease;
 }
