@@ -180,175 +180,33 @@ document.addEventListener("DOMContentLoaded", function () {
     changePageContent(href);
   });
 
-
-  async function fetchFullTextPage() {
-    const hash = location.hash.slice(1); // Remove the '#' from the start
-    const [page, query] = hash.split("?");
-
-    if (page !== "full-text-page.html") return;
-
-    const params = new URLSearchParams(query);
-    const bookId = params.get("id");
-
-    if (!bookId) {
-      document.querySelector(".full-text-main-content").innerHTML = "<p>آیتم یافت نشد.</p>";
-      return;
-    }
-
-    let table = "latestContent";
-    if (bookId.startsWith("talk")) table = "talks";
-    else if (bookId.startsWith("book")) table = "notes";
-    else if (bookId.startsWith("special")) table = "special";
-    else if (bookId.startsWith("podcast")) table = "podcast";
+  async function loadHomepageContent() {
+    showSpinner();
 
     try {
-      const { data: items, error } = await supabase
-        .from(table)
-        .select("*")
-        .eq("id", bookId);
-
-      if (error) throw error;
-
-      const book = items[0];
-      if (!book) {
-        document.querySelector(".full-text-main-content").innerHTML = "<p>یافت نشد.</p>";
-        return;
-      }
-
-      // Render content
-      const titleElement = document.querySelector(".full-text-container h1");
-      const imageElement = document.querySelector(".top-image");
-      const detailsSection = document.querySelector(".book-details");
-      const dateElement = document.querySelector(".date");
-      const downloadLink = document.querySelector('.link');
-      const audioElement = document.querySelector('.audio');
-      const audioSource = document.querySelector('.audio-source');
-
-      if (titleElement) titleElement.textContent = book.title;
-      if (imageElement) imageElement.src = book.image;
-      if (dateElement) dateElement.textContent = book.date;
-
-      if (downloadLink) {
-        if (book.pdfLink) {
-          downloadLink.href = book.pdfLink;
-          downloadLink.textContent = "| دانلود فایل";
-          downloadLink.style.display = "inline-block";
-        } else {
-          downloadLink.style.display = "none";
-        }
-      }
-
-      if (audioElement && audioSource) {
-        if (book.audioLink) {
-          audioSource.src = book.audioLink;   //  CORRECT
-          audioElement.load();                //  REQUIRED for mobile
-          audioElement.style.display = "block";
-        } else {
-          audioElement.style.display = "none";
-        }
-      }
-
-      if (detailsSection) {
-        detailsSection.innerHTML = `
-        <h2>${book.writer}</h2>
-        <p>${book.content}</p>
-      `;
-      }
-
-      // Related items
-      const { data: relatedItems, error: relatedError } = await supabase
-        .from(table)
-        .select("*")
-        .neq("id", bookId)
-        .order('id', { ascending: false })
-        .limit(4);
-
-      if (relatedError) throw relatedError;
-
-      const relatedContainer = document.querySelector(".related-content");
-      relatedContainer.innerHTML = "";
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-
-      relatedItems.forEach(item => {
-        const div = document.createElement("div");
-        div.className = "related-item";
-        div.innerHTML = `
-        <a href="#full-text-page.html?id=${item.id}">
-          <img src="${item.image}" alt="${item.title}" />
-          <p>${item.title}</p>
-        </a>
-      `;
-
-        div.querySelector("a").addEventListener("click", function (e) {
-          e.preventDefault();
-          const newUrl = this.getAttribute("href");
-          history.pushState({ href: newUrl }, "", `#${newUrl}`);
-          fetchFullTextPage();
-        });
-
-        relatedContainer.appendChild(div);
-      });
-
-      loadLatestContentSidebar();
-
+      await Promise.all([
+        loadFirstSectionSpecial(),
+        loadNotesAndApplications(),
+        loadTalks(),
+        loadSpecialAndPodcast()
+        // loadRecommendationHome() ← no DB, keep sync
+      ]);
+      loadRecommendationHome();
     } catch (err) {
-      console.error(" Error loading full text from Supabase:", err);
-      document.querySelector(".full-text-main-content").innerHTML = "<p>خطا در بارگیری محتوا</p>";
+      console.error(err);
+    } finally {
+      hideSpinner();
     }
-  }
-
-  function handleRouting() {
-    const hash = location.hash.slice(1);
-    const [pagePath] = hash.split("?");
-
-    if (pagePath === "full-text-page.html") {
-      fetchFullTextPage();  // load content from Supabase
-    }
-
   }
 
   // Load Home Content
   loadHomepageContent();
 
-
-
-
-  async function loadHomepageContent() {
-    showSpinner(); // Show spinner before starting any fetches
-
-    try {
-      await loadFirstSectionSpecial();
-      await loadNotesAndApplications();
-      await loadTalks();
-      await loadRecommendationHome();
-      await loadSpecialAndPodcast();
-    } catch (error) {
-      console.error('Error loading homepage content:', error);
-    } finally {
-      hideSpinner(); // Hide spinner after all fetches complete
-    }
-  }
-
-
-  function createArticleHTML(item, size = 'small', type) {
-    const link = `full-text-page.html?id=${item.id}&type=${type}`;
-    return `
-    <div class="article ${size}">
-        <a href="${link}" style="text-decoration: none; color: inherit;">
-            <img src="${item.image}" alt="${item.title}">
-        </a>
-        <h3><a href="${link}" style="text-decoration: none; color: inherit;">${item.title}</a></h3>
-        ${item.date ? `<p>${item.date}</p>` : ''}
-    </div>
-  `;
-  }
-
-
   // Section 1: No title → special
   async function loadFirstSectionSpecial() {
     const { data, error } = await supabase
       .from('special')
-      .select('*')
+      .select('id,title,image,date')
       .order('id', { ascending: false })
       .limit(5);
 
@@ -869,7 +727,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const fetchData = async () => {
       const { data, error } = await supabase
         .from(tableName)
-        .select('*')
+        .select('id,title,image')
         .order('id', { ascending: false });
 
       if (error) {
@@ -1019,6 +877,147 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
 
+  async function fetchFullTextPage() {
+    const hash = location.hash.slice(1); // Remove the '#' from the start
+    const [page, query] = hash.split("?");
+
+    if (page !== "full-text-page.html") return;
+
+    const params = new URLSearchParams(query);
+    const bookId = params.get("id");
+
+    if (!bookId) {
+      document.querySelector(".full-text-main-content").innerHTML = "<p>آیتم یافت نشد.</p>";
+      return;
+    }
+
+    let table = "latestContent";
+    if (bookId.startsWith("talk")) table = "talks";
+    else if (bookId.startsWith("book")) table = "notes";
+    else if (bookId.startsWith("special")) table = "special";
+    else if (bookId.startsWith("podcast")) table = "podcast";
+
+    try {
+      const { data: items, error } = await supabase
+        .from(table)
+        .select("*")
+        .eq("id", bookId);
+
+      if (error) throw error;
+
+      const book = items[0];
+      if (!book) {
+        document.querySelector(".full-text-main-content").innerHTML = "<p>یافت نشد.</p>";
+        return;
+      }
+
+      // Render content
+      const titleElement = document.querySelector(".full-text-container h1");
+      const imageElement = document.querySelector(".top-image");
+      const detailsSection = document.querySelector(".book-details");
+      const dateElement = document.querySelector(".date");
+      const downloadLink = document.querySelector('.link');
+      const audioElement = document.querySelector('.audio');
+      const audioSource = document.querySelector('.audio-source');
+
+      if (titleElement) titleElement.textContent = book.title;
+      if (imageElement) imageElement.src = book.image;
+      if (dateElement) dateElement.textContent = book.date;
+
+      if (downloadLink) {
+        if (book.pdfLink) {
+          downloadLink.href = book.pdfLink;
+          downloadLink.textContent = "| دانلود فایل";
+          downloadLink.style.display = "inline-block";
+        } else {
+          downloadLink.style.display = "none";
+        }
+      }
+
+      if (audioElement && audioSource) {
+        if (book.audioLink) {
+          audioSource.src = book.audioLink;   //  CORRECT
+          audioElement.load();                //  REQUIRED for mobile
+          audioElement.style.display = "block";
+        } else {
+          audioElement.style.display = "none";
+        }
+      }
+
+      if (detailsSection) {
+        detailsSection.innerHTML = `
+        <h2>${book.writer}</h2>
+        <p>${book.content}</p>
+      `;
+      }
+
+      // Related items
+      const { data: relatedItems, error: relatedError } = await supabase
+        .from(table)
+        .select('id,title,image')
+        .limit(4)
+        .neq("id", bookId)
+        .order('id', { ascending: false })
+
+      if (relatedError) throw relatedError;
+
+      const relatedContainer = document.querySelector(".related-content");
+      relatedContainer.innerHTML = "";
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+
+      relatedItems.forEach(item => {
+        const div = document.createElement("div");
+        div.className = "related-item";
+        div.innerHTML = `
+        <a href="#full-text-page.html?id=${item.id}">
+          <img src="${item.image}" alt="${item.title}" />
+          <p>${item.title}</p>
+        </a>
+      `;
+
+        div.querySelector("a").addEventListener("click", function (e) {
+          e.preventDefault();
+          const newUrl = this.getAttribute("href");
+          history.pushState({ href: newUrl }, "", `#${newUrl}`);
+          fetchFullTextPage();
+        });
+
+        relatedContainer.appendChild(div);
+      });
+
+      loadLatestContentSidebar();
+
+    } catch (err) {
+      console.error(" Error loading full text from Supabase:", err);
+      document.querySelector(".full-text-main-content").innerHTML = "<p>خطا در بارگیری محتوا</p>";
+    }
+  }
+
+  function handleRouting() {
+    const hash = location.hash.slice(1);
+    const [pagePath] = hash.split("?");
+
+    if (pagePath === "full-text-page.html") {
+      fetchFullTextPage();  // load content from Supabase
+    }
+
+  }
+
+
+  function createArticleHTML(item, size = 'small', type) {
+    const link = `full-text-page.html?id=${item.id}&type=${type}`;
+    return `
+    <div class="article ${size}">
+        <a href="${link}" style="text-decoration: none; color: inherit;">
+            <img src="${item.image}" alt="${item.title}">
+        </a>
+        <h3><a href="${link}" style="text-decoration: none; color: inherit;">${item.title}</a></h3>
+        ${item.date ? `<p>${item.date}</p>` : ''}
+    </div>
+  `;
+  }
+
+
   // --- Sidebar Loader ---
   async function loadLatestContentSidebar() {
     const sidebar = document.querySelector('.sidebar');
@@ -1039,7 +1038,7 @@ document.addEventListener("DOMContentLoaded", function () {
       for (const table of tables) {
         const { data, error } = await supabase
           .from(table)
-          .select('*')
+          .select('id,title,image,date')
           .order('date', { ascending: false })
           .limit(1);
 
@@ -1084,40 +1083,45 @@ document.addEventListener("DOMContentLoaded", function () {
     window.sidebarLoading = false;
   }
 
-
-
   window.addEventListener("hashchange", handleRouting);
   window.addEventListener("load", handleRouting);
 
+  const searchBar = document.getElementById('search-bar');
+  const searchInput = document.getElementById('search-input');
+  const searchClose = document.getElementById('search-close');
+  const resultsDiv = document.getElementById('search-results');
 
+  /* Open / toggle search bar */
   document.querySelector('.fa-search').addEventListener('click', () => {
-    const bar = document.getElementById('search-bar');
-    bar.style.left = bar.style.left === '0px' ? '-100%' : '0px';
+    searchBar.style.left = searchBar.style.left === '0px' ? '-100%' : '0px';
     document.body.style.overflow = 'hidden';
   });
 
-  document.getElementById('search-input').addEventListener('input', async function () {
-    const query = this.value.trim().toLowerCase();
-    const resultsDiv = document.getElementById('search-results');
+  let searchTimeout;
+
+  searchInput.addEventListener('input', () => {
+    clearTimeout(searchTimeout);
+    searchTimeout = setTimeout(runSearch, 400);
+  });
+
+  async function runSearch() {
+    const query = searchInput.value.trim().toLowerCase();
     resultsDiv.innerHTML = '';
 
     if (!query) return;
 
     const tables = ['notes', 'podcast', 'talks', 'special'];
-    let allResults = [];
+    const allResults = [];
 
-    for (let table of tables) {
-      const { data, error } = await supabase
+    for (const table of tables) {
+      const { data } = await supabase
         .from(table)
-        .select('*')
+        .select('id,title,image')
         .ilike('title', `%${query}%`)
         .limit(3);
 
       if (data) {
-        allResults.push(...data.map(item => ({
-          ...item,
-          table
-        })));
+        allResults.push(...data.map(item => ({ ...item, table })));
       }
     }
 
@@ -1128,56 +1132,52 @@ document.addEventListener("DOMContentLoaded", function () {
 
     allResults.forEach(item => {
       const result = document.createElement('div');
+
       result.innerHTML = `
-      <a href="#full-text-page.html?id=${item.id}&type=${item.table}" style="display: flex; align-items: center; gap: 10px; margin-bottom: 10px;">
-        <img src="${item.image}" alt="${item.title}" style="width: 60px; height: auto;">
+      <a href="#full-text-page.html?id=${item.id}&type=${item.table}"
+         style="display:flex;align-items:center;gap:10px;margin-bottom:10px;">
+        <img src="${item.image}" alt="${item.title}"
+             style="width:60px;height:auto;" loading="lazy">
         <div>
-          <h4 style="margin: 0;">${item.title}</h4>
+          <h4 style="margin:0;">${item.title}</h4>
         </div>
       </a>
     `;
 
-      result.querySelector("a").addEventListener("click", function (e) {
+      result.querySelector('a').addEventListener('click', function (e) {
         e.preventDefault();
-        const newUrl = this.getAttribute("href");
-        history.pushState({ href: newUrl }, "", `#${newUrl}`);
-        document.getElementById('search-bar').style.left = "-100%"; // hide bar
-        fetchFullTextPage();
+        const newUrl = this.getAttribute('href');
+        history.pushState({ href: newUrl }, '', `#${newUrl}`);
+        searchBar.style.left = '-100%';
         document.body.style.overflow = '';
+        fetchFullTextPage();
       });
 
       resultsDiv.appendChild(result);
     });
+  }
+
+  /* Close on × click */
+  searchClose.addEventListener('click', () => {
+    closeSearch();
   });
 
-  const searchBar = document.getElementById('search-bar');
-  const searchInput = document.getElementById('search-input');
-  const searchClose = document.getElementById('search-close');
+  /* Close if clicking outside */
+  document.body.addEventListener('click', (e) => {
+    if (!searchBar.contains(e.target) && !e.target.classList.contains('fa-search')) {
+      closeSearch();
+    }
+  });
 
-
-
-  // Close on "×" click
-  searchClose.addEventListener('click', () => {
+  function closeSearch() {
     searchBar.style.left = '-100%';
 
     setTimeout(() => {
       searchInput.value = '';
-      document.getElementById('search-results').innerHTML = '';
+      resultsDiv.innerHTML = '';
       document.body.style.overflow = '';
     }, 300);
-  });
-
-  // Close if clicking outside the sidebar
-  document.body.addEventListener('click', (e) => {
-    if (!searchBar.contains(e.target) && !e.target.classList.contains('fa-search')) {
-      searchBar.style.left = '-100%';
-      searchInput.value = '';
-      document.getElementById('search-results').innerHTML = '';
-      document.body.style.overflow = '';
-    }
-  });
-
-
+  }
 
   function showSpinner() {
     document.getElementById('loading-spinner').style.display = 'flex';
